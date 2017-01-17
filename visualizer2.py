@@ -22,7 +22,7 @@ from subprocess import check_output
 # You can set this lower to reduce idle CPU usage; it has no effect
 # as long as data is being read from the queue, so it is rather a
 # "resume" delay.
-DEVICE_POLL_INTERVAL = 0.001  # in seconds
+DEVICE_POLL_INTERVAL = 0.01  # in seconds
 
 sensor_bits = {
     'F3': [10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7],
@@ -238,7 +238,7 @@ class Emotiv(object):
             for device in devices:
                 device.close()
 
-            gevent.kill(crypto, KeyboardInterrupt)
+            gevent.kill(Crypto, KeyboardInterrupt)
             gevent.kill(console_updater, KeyboardInterrupt)
 
     def handler(self, data):
