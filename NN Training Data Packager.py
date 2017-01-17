@@ -106,35 +106,38 @@ tblock= np.zeros((tbsets, 1008))
 
 # This loop creates training sets sliding along the time range given
 
-
-for n in np.arange(0,tbsets):
+for n in range(tbsets):
     # Determine what time range to pull the epoc from
     trange = np.transpose(np.where(np.logical_and(time>=n,time <= n+3)))
     # Cutting down to just EEG Samples
     epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14,
                                         16, 17, 18])]
     # FFT of the epoch
-    fft = np.transpose(abs(np.fft.fft(epochs,72,0)))
+    fft = abs(np.fft.fft(epochs,72,0))
+
     # Setting up index of items that will be replaced as the fft of the training
     # set gets taken from 2D to 1D
     range1 = np.arange(72)
+
     # Taking the fft from a 2D array to a 1D array
-    for i in np.arange(0,13):
-        tset[range1]=fft[i, :]
+    for i in range(0,13):
+
+        range2 = i
+        np.copyto(tset[range1],fft[:,i])
         range1 = range1 + 72
+
+        break
+
     # Combining into training data
-    tblock[n, :] = tset
+    np.copyto(tblock[n,:], tset)
 
+    break
 
-print np.shape(fft)
-
-#Normalizing
-tblock = tblock/np.amax(tblock)
-print tblock
 
 # Writing to CSV for NN training
 
 # What would you like to call this file?
+
 #Commented out for testing
 #output = input_raw("What would you ike to name the ouput file? Example input "
 #                  "output.csv")
