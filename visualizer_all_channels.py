@@ -333,7 +333,7 @@ class Emotiv(object):
 
         f, (F3, F4, P7, FC6, F7, F8, T7,P8,FC5,AF4,T8,O2,O1,AF3) = plt.subplots(14, sharex=True, sharey=True)
         plt.axis([x1, x2, -10, 10])
-        f.set_size_inches(18.5, 10.5, forward=True)
+        f.set_size_inches(18, 10, forward=True)
         f.subplots_adjust(hspace=0)
         F3.set_title('Time Domain')
         P7.set_xlabel('Time(s)')
@@ -371,20 +371,20 @@ class Emotiv(object):
                 print(line_wrt)
                 plt.ion()
 
-                y1 = current_line[0] + np.random.random()
-                y2 = current_line[1] + np.random.random()
-                y3 = current_line[2] + np.random.random()
-                y4 = current_line[3] + np.random.random()
-                y5 = current_line[4] + np.random.random()
-                y6 = current_line[5] + np.random.random()
-                y7 = current_line[6] + np.random.random()
-                y8 = current_line[7] + np.random.random()
-                y9 = current_line[8] + np.random.random()
-                y10 = current_line[9] + np.random.random()
-                y11 = current_line[10] + np.random.random()
-                y12 = current_line[11] + np.random.random()
-                y13 = current_line[12] + np.random.random()
-                y14 = current_line[13] + np.random.random()
+                y1 = current_line[0]
+                y2 = current_line[1]
+                y3 = current_line[2]
+                y4 = current_line[3]
+                y5 = current_line[4]
+                y6 = current_line[5]
+                y7 = current_line[6]
+                y8 = current_line[7]
+                y9 = current_line[8]
+                y10 = current_line[9]
+                y11 = current_line[10]
+                y12 = current_line[11]
+                y13 = current_line[12]
+                y14 = current_line[13]
 
                 F3.scatter(t,y1)
                 F4.scatter(t,y2)
