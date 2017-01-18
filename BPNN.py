@@ -41,6 +41,8 @@ def truncLinear(x, Derivative=False):
     else:
         return 1.0
 
+#Seeding initiated weights
+np.random.seed(1)
 
 #
 # Classes
@@ -120,7 +122,7 @@ class BackPropagationNetwork:
     #
     # TrainEpoch method
     #
-    def TrainEpoch(self, input, target, trainingRate=0.1, momentum=0.5):
+    def TrainEpoch(self, input, target, trainingRate=0.01, momentum=0.5):
         """This method trains the network for one epoch"""
 
         delta = []
@@ -134,7 +136,7 @@ class BackPropagationNetwork:
             if index == self.layerCount - 1:
                 # Compare to the target values
                 output_delta = self._layerOutput[index] - target.T
-                error = np.sum(output_delta ** 2)
+                error = np.sum(output_delta**2)
                 delta.append(
                     output_delta * self.tFuncs[index](self._layerInput[index],
                                                       True))
@@ -194,7 +196,7 @@ if __name__ == "__main__":
             print("Desired error reached. Iter: {0}".format(i))
             break
 
-    # Display output
+# Display output
 
     lvOutput = bpn.Run(lvInput)
     for i in range(lvInput.shape[0]):

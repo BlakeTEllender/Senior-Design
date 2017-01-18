@@ -68,27 +68,26 @@ for filename in filenames:
     tagsb = np.hstack((tagsa,tagsb))
 
 
-np.random.seed(1)
 
 lvInput = tblockc
-lvTarget = tagsb
+lvTarget = tagsb.T
 lFuncs = [None, sgm, linear]
 
-bpn = BPNN((1008, 2, 1), lFuncs)
+bpn = BPNN.BackPropagationNetwork((1007, 3, 1), lFuncs)
 
 lnMax = 50000
 lnErr = 1e-6
 for i in range(lnMax + 1):
     err = bpn.TrainEpoch(lvInput, lvTarget, momentum=0.7)
-    if i % 1000 == 0 and i > 0:
+    if i % 5000 == 0 and i > 0:
         print("Iteration {0:6d}K - Error: {1:0.6f}".format(int(i / 1000), err))
     if err <= lnErr:
         print("Desired error reached. Iter: {0}".format(i))
         break
 
-    # Display output
+# Display output
 
-    lvOutput = bpn.Run(lvInput)
-    for i in range(lvInput.shape[0]):
-        print("Input: {0} Output: {1}".format(lvInput[i], lvOutput[i]))
+lvOutput = bpn.Run(lvInput)
+for i in range(lvInput.shape[0]):
+    print("Input: {0} Output: {1}".format(lvInput[i], lvOutput[i]))
 
