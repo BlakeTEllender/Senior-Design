@@ -4,14 +4,43 @@
 
 #Dependencies
 import numpy as np
+import BPNN
 
 
-#Defining the sigmoid function and it's derivative
-def nonlin(x, deriv=False):
-    if (deriv==True):
-        return x*(1 - x)
+#Defining the transfer functions and their derivatives
+def sgm(x, Derivative=False):
+    if not Derivative:
+       return 1.0 / (1.0 + np.exp(-x))
+    else:
+         out = sgm(x)
+         return out * (1.0 - out)
 
-    return 1/(1+np.exp(-x))
+def linear(x, Derivative=False):
+    if not Derivative:
+        return x
+    else:
+        return 1.0
+
+def gaussian(x, Derivative=False):
+    if not Derivative:
+        return np.exp(-x ** 2)
+    else:
+        return -2 * x * np.exp(-x ** 2)
+
+def tanh(x, Derivative=False):
+    if not Derivative:
+        return np.tanh(x)
+    else:
+        return 1.0 - np.tanh(x) ** 2
+
+def truncLinear(x, Derivative=False):
+    if not Derivative:
+        y = x.copy()
+        y[y < 0] = 0
+        return y
+    else:
+        return 1.0
+
 
 # Grabbing data from csv file
 # Temporarily commented out for testing
@@ -25,8 +54,7 @@ def nonlin(x, deriv=False):
 
 # Loop to train multiple files
 filenames1 = ["eyeblink_1_30sec", "eyeblink_2_30sec","eyeblink_3_30sec",
-              "EMG_1_30sec","EMG_2_30sec","EMG_3_30sec","rock_1_30sec","rock_2_30sec","rock_3_30sec","rock_4_30sec",
-             "rock_5_30sec"]
+              "EMG_1_30sec","EMG_2_30sec","EMG_3_30sec"]
 filenames =  [ s + "_Tblock.csv" for s in filenames1]
 tblockc = np.ones((1,1007))
 tagsb = 0
@@ -37,40 +65,30 @@ for filename in filenames:
     tblockb = tblocka[:, 0:-3]
     tblockc = np.vstack((tblockb,tblockc))
     tagsa = tblocka[:,-2]
-    print tagsa
     tagsb = np.hstack((tagsa,tagsb))
-    print tagsb
-
-print np.shape(tagsb)
-print np.shape(tblockc)
 
 
 np.random.seed(1)
-# randomly initialize our weights with mean 0
-syn0 = 2*np.random.random(np.shape(tblockc.T)) - 1
-syn1 = 2*np.random.random((np.size(tagsb),1)) - 1
 
-for j in xrange(600000):
+lvInput = tblockc
+lvTarget = tagsb
+lFuncs = [None, sgm, linear]
 
-    # Feed forward through layers 0, 1, and 2
-    l0 = tblockc
-    l1 = nonlin(np.dot(l0, syn0))
-    l2 = nonlin(np.dot(l1, syn1))
+bpn = BPNN((1008, 2, 1), lFuncs)
 
-    # how much did we miss the target value?
-    l2_error = tagsb - l2
-    if (j % 10000) == 0:
-        print "Error:" + str(np.mean(np.abs(l2_error))*100)
-    # in what direction is the target value?
-    # were we really sure? if so, don't change too much.
-    l2_delta = np.dot(l2_error,nonlin(l2, deriv=True))
-    # how much did each l1 value contribute to the l2 error (according to the weights)?
+lnMax = 50000
+lnErr = 1e-6
+for i in range(lnMax + 1):
+    err = bpn.TrainEpoch(lvInput, lvTarget, momentum=0.7)
+    if i % 1000 == 0 and i > 0:
+        print("Iteration {0:6d}K - Error: {1:0.6f}".format(int(i / 1000), err))
+    if err <= lnErr:
+        print("Desired error reached. Iter: {0}".format(i))
+        break
 
-    l1_error = l2_delta.dot(syn1.T)
-    # in what direction is the target l1?
-    # were we really sure? if so, don't change too much.
-    l1_delta = l1_error * nonlin(l1, deriv=True)
+    # Display output
 
-    syn0 += l0.T.dot(l1_delta)
-    syn1 += l1.dot(l2_delta)
+    lvOutput = bpn.Run(lvInput)
+    for i in range(lvInput.shape[0]):
+        print("Input: {0} Output: {1}".format(lvInput[i], lvOutput[i]))
 
