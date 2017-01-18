@@ -28,7 +28,7 @@ filenames1 = ["eyeblink_1_30sec", "eyeblink_2_30sec","eyeblink_3_30sec",
               "EMG_1_30sec","EMG_2_30sec","EMG_3_30sec","rock_1_30sec","rock_2_30sec","rock_3_30sec","rock_4_30sec",
              "rock_5_30sec"]
 filenames =  [ s + "_Tblock.csv" for s in filenames1]
-tblockc = np.zeros((1,1007))
+tblockc = np.ones((1,1007))
 tagsb = 0
 
 for filename in filenames:
