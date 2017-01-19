@@ -79,7 +79,7 @@ lnMax = 50000
 lnErr = 1e-6
 for i in range(lnMax + 1):
     err = bpn.TrainEpoch(lvInput, lvTarget, momentum=0.7)
-    if i % 5000 == 0 and i > 0:
+    if i %  1== 0 and i > 0:
         print("Iteration {0:6d}K - Error: {1:0.6f}".format(int(i / 1000), err))
     if err <= lnErr:
         print("Desired error reached. Iter: {0}".format(i))
