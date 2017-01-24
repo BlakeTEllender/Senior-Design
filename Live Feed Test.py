@@ -1,8 +1,11 @@
-
 # Live feed Test
 # Senior Design 2016-2017 Team 6
 # Blake T. Ellender
 
-from CyKit.emotiv import Emotiv
+from emotiv2 import Emotiv
 
-Emotiv.setup()
+a = Emotiv()
+try:
+     a.setup()
+except KeyboardInterrupt:
+     a.close()

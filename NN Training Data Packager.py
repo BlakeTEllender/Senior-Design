@@ -22,8 +22,7 @@ import numpy as np
 
 
 # Temporary file name variable for testing
-filenames1= ["rock_1_30sec","rock_2_30sec","rock_3_30sec","rock_4_30sec",
-             "rock_5_30sec"]
+filenames1= ["meditation1"]
 filenames =  ["EEG Artifact Recordings/" + s + ".csv" for s in filenames1]
 for filename in filenames:
 
@@ -44,14 +43,14 @@ for filename in filenames:
     # start = input("At what time in the recording would you like to start  "
     #              "packaging the data? (Input in seconds.)")
 
-    start = 10
+    start = 100
 
     # Prompting the user for the end of the desired event.
 
     # Commented out for testing
     # stop = input("At what time in the recording would you like to stop packaging "
     #            "the data?")
-    stop = 20
+    stop = 147
 
     # Tagging training sets for NN
 
@@ -71,10 +70,10 @@ for filename in filenames:
     dblock2 = dblock[1:, :]
 
     # Array of samples
-    sample = dblock2[:, 0]
+    sample = dblock2[:, 1]
 
     # Array of time
-    time = dblock2[:, 1]
+    time = dblock2[:, 2]
 
     # Recording length of total CSV file in seconds
     recl = time[-1]
@@ -100,8 +99,8 @@ for filename in filenames:
         # Determine what time range to pull the epoc from
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
-        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14,
-                                           16, 17, 18])]
+        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                           14, 15, 16])]
         # FFT of the epoch
         fft = np.transpose(abs(np.fft.fft(epochs, 72)))
 
