@@ -1,5 +1,8 @@
 import os
 import platform
+import time
+import numpy as np
+import sys
 system_platform = platform.system()
 if system_platform == "Darwin":
     import hid
@@ -206,7 +209,6 @@ def get_linux_setup():
     """
     Returns hidraw device path and headset serial number.
     """
-    print ('get_linux_setup')
     raw_inputs = []
     for filename in os.listdir("/sys/class/hidraw"): #opens hidraw folders to find location of USB cnxns
         #filename is hidraw() , name of directory folder
@@ -214,23 +216,18 @@ def get_linux_setup():
         #real_path is entire location of device 
         split_path = real_path.split('/') #divides path into chunks betweeen "/"
         s = len(split_path) #number of chunks btwn slashes
-        print s
         s -= 4
         i = 0
         path = ""
         while s > i: #makes path only have first 7 chunks of the real_path
-            print [s] + [i]
             path = path + split_path[i] + "/"
             i += 1
         raw_inputs.append([path, filename]) #adds hidraw folder, i.e. hidraw0, hidraw1, hidraw2. . .   
     for input in raw_inputs:
-        print ('input in raw_inputs')
-        print input
         try:
             with open(input[0] + "/manufacturer", 'r') as f:
                 manufacturer = f.readline()
-                print "manufacturer ="
-                print manufacturer
+                print "manufacturer =   " + manufacturer
                 f.close()
             if "Emotiv" in manufacturer:
                 print ('Found Emotiv') 
@@ -407,121 +404,35 @@ class Emotiv(object):
         if system_platform == "Linux": #this is the one we want
             self.setup_posix()
 
-    #def setup_windows(self):
-        """
-        Setup for headset on the Windows platform. 
-        """
-     #   devices = []
-    #    try:
-    #        devicesUsed = 0
-    #        for device in hid.find_all_hid_devices():
-    #            print "Product name " + device.product_name
-    #            print "device path " + device.device_path
-    #            print "instance id " + device.instance_id
-    #            print "\r\n"
-    #            useDevice = ""
-                  
-    #            if device.vendor_id != 0x21A1 and device.vendor_id != 0xED02:
-    #                continue
-                    
-    #            if device.product_name == 'Brain Waves':
-                    
-    #                print "\n" + device.product_name + " Found!\n"
-    #                useDevice = raw_input("Use this device? [Y]es? ")
-                   
-    #                if useDevice.upper() == "Y":                   
-    #                     devicesUsed += 1             
-    #                     devices.append(device)
-    #                     device.open()
-    #                     self.serial_number = device.serial_number
-    #                     device.set_raw_data_handler(self.handler)
-    #                  elif device.product_name == 'EPOC BCI':
-                    
-    #                print "\n" + device.product_name + " Found!\n"
-    #                useDevice = raw_input("Use this device? [Y]es? ")
-    #                if useDevice.upper() == "Y":                   
-    #                     devicesUsed += 1
-    #                     devices.append(device)
-    #                     device.open()
-    #                     self.serial_number = device.serial_number
-    #                     device.set_raw_data_handler(self.handler)
-    #            elif device.product_name == '00000000000':
-                    
-    #                print "\n" + device.product_name + " Found!\n" 
-    #                useDevice = raw_input("Use this device? [Y]es? ")
-
-    #                if useDevice.upper() == "Y":
-    #                     devicesUsed += 1
-    #                     devices.append(device)
-    #                     device.open()
-    #                     self.serial_number = device.serial_number
-    #                     device.set_raw_data_handler(self.handler)
-    #            elif device.product_name == 'Emotiv RAW DATA':
-                    
-    #                print "\n" + device.product_name + " Found!\n" 
-    #                useDevice = raw_input("Use this device? [Y]es? ")
-
-    #                if useDevice.upper() == "Y":
-    #                     devicesUsed += 1
-    #                     devices.append(device)
-    #                     device.open()
-    #                     self.serial_number = device.serial_number
-    #                     device.set_raw_data_handler(self.handler)
-                         
-    #        print "\n\n Devices Selected: " + str(devicesUsed)
-    #        crypto = gevent.spawn(self.setup_crypto, self.serial_number)
-    #        console_updater = gevent.spawn(self.update_console)
-    #        raw_input("Press Enter to continue...")
-    #        while self.running:
-    #            try:
-    #                gevent.sleep(0)
-
-    #            except KeyboardInterrupt:
-    #                self.running = False
-    #    finally:
-    #        for device in devices:
-    #            device.close()
-            
-    #        gevent.kill(crypto, KeyboardInterrupt)
-    #        gevent.kill(console_updater, KeyboardInterrupt)
-
-    #def handler(self, data):
-    #    """
-    #    Receives packets from headset for Windows. Sends them to a Queue to be processed
-    #    by the crypto greenlet.
-    #    """
-    #    assert data[0] == 0
-    #    tasks.put_nowait(''.join(map(chr, data[1:])))
-    #    self.packets_received += 1
-    #    return True
-
     def setup_posix(self):
         """
         Setup for headset on the Linux platform.
         Receives packets from headset and sends them to a Queue to be processed
         by the crypto greenlet.
         """
-        print ('setup_posix')
         _os_decryption = False
         if os.path.exists('/dev/eeg/raw'):
             # The decryption is handled by the Linux epoc daemon. We don't need to handle it.
             _os_decryption = True
             hidraw = open("/dev/eeg/raw")
-            print ('os.path.exists')
         else:
             serial, hidraw_filename = get_linux_setup() #error line
             self.serial_number = serial
-            print ('other thing')
             if os.path.exists("/dev/" + hidraw_filename):
+                print ('os.path.exists')
                 hidraw = open("/dev/" + hidraw_filename)
-            else:
+            else: #doesn't go here 
                 hidraw = open("/dev/hidraw4")
             crypto = gevent.spawn(self.setup_crypto, self.serial_number)
+            print ('crypto line 430')
         console_updater = gevent.spawn(self.update_console)
+        print ('console_updater line 432')
         while self.running:
             try:
-                data = hidraw.read(32)
+                data = hidraw.read(32) #doesn't execute, stops
+                print ('running line 435')
                 if data != "":
+                    print ('data still in queue (still coming from headset) line 438')
                     if _os_decryption:
                         self.packets.put_nowait(EmotivPacket(data))
                     else:
@@ -530,10 +441,12 @@ class Emotiv(object):
                         tasks.put_nowait(data)
                     gevent.sleep(0)
                 else:
+                    print ('no new data from device line 454')
                     # No new data from the device; yield
                     # We cannot sleep(0) here because that would go 100% CPU if both queues are empty
                     gevent.sleep(DEVICE_POLL_INTERVAL)
             except KeyboardInterrupt:
+                print ('not running')
                 self.running = False
         hidraw.close()
         if not _os_decryption:
@@ -609,6 +522,7 @@ class Emotiv(object):
         self.running = False
 
     def update_console(self):
+        print ('gets to update_console')
         """
         Greenlet that outputs sensor, gyro and battery values once per second to the console.
         """ 
@@ -631,7 +545,8 @@ class Emotiv(object):
                 line_wrt = counter + [t] + current_line
                 if t_curr >= epoc_time:
                     print 'time over 3 sec'
-                    doy = np.array(epoc)
+                    #doy = np.array(epoc)
+                    doy = np.array(line_wrt)
                     self.chunk = doy
                     print self.chunk
                     return self.chunk
