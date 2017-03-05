@@ -22,7 +22,7 @@ import numpy as np
 
 
 # Temporary file name variable for testing
-filenames1= ["meditation1"]
+filenames1= ["baseline_2"]
 filenames =  ["EEG Artifact Recordings/" + s + ".csv" for s in filenames1]
 for filename in filenames:
 
@@ -43,14 +43,17 @@ for filename in filenames:
     # start = input("At what time in the recording would you like to start  "
     #              "packaging the data? (Input in seconds.)")
 
-    start = 100
+    start = 10
+
 
     # Prompting the user for the end of the desired event.
 
     # Commented out for testing
     # stop = input("At what time in the recording would you like to stop packaging "
     #            "the data?")
-    stop = 147
+    stop = 300
+
+
 
     # Tagging training sets for NN
 
@@ -69,10 +72,10 @@ for filename in filenames:
     # Removing labels from the first row of the CSV
     dblock2 = dblock[1:, :]
 
-    # Array of samples
+    # Array of samples may need changed
     sample = dblock2[:, 1]
 
-    # Array of time
+    # Array of time may need changed
     time = dblock2[:, 2]
 
     # Recording length of total CSV file in seconds
@@ -83,6 +86,7 @@ for filename in filenames:
 
     # Average sample rate
     samplerate = sample2 / recl
+    print samplerate
 
     # Selecting individual epochs
     # Preallocating an individual training set
@@ -99,8 +103,12 @@ for filename in filenames:
         # Determine what time range to pull the epoc from
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
-        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-                                           14, 15, 16])]
+        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                                          13,14, 15, 16])]
+
+        #epochs = dblock2[trange,np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14,
+        #                                 16, 17, 18])]
+
         # FFT of the epoch
         fft = np.transpose(abs(np.fft.fft(epochs, 72)))
 
@@ -114,6 +122,7 @@ for filename in filenames:
         # Combining into training data
         tblock[n,:] = tset
 
+    print epochs
 
     # Normalizing
     tblock = tblock / np.amax(tblock)
@@ -134,6 +143,7 @@ for filename in filenames:
     #                  "output.csv")
 
     print np.shape(tblock2)
+    print tblock2
 
     output = filename[24:-4]+"_Tblock.csv"
     np.savetxt(output, tblock2, delimiter=",")

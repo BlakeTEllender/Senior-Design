@@ -49,35 +49,46 @@ def truncLinear(x, Derivative=False):
 # the network with?("No need to add quotation marks around the entry.)")
 
 # Loop to train multiple files
-filenames1 = ["eyeblink_1_30sec", "eyeblink_2_30sec","eyeblink_3_30sec",
-              "EMG_1_30sec","EMG_2_30sec","EMG_3_30sec","meditation1"]
+#filenames1 = ["eyeblink_1_30sec", "eyeblink_2_30sec","eyeblink_3_30sec",
+#             "EMG_1_30sec","EMG_2_30sec","EMG_3_30sec","meditation1",
+#             "meditation2", "blink _1_60sec", "blink_2_60sec",
+#             "blink_3_60sec", "baseline_2", "baseline_3"]
+
+filenames1 = ["EMG_1_30sec", "eyeblink_1_30sec", "meditation2", "baseline_2"]
+
+
 filenames =  [ s + "_Tblock.csv" for s in filenames1]
 tblockc = np.ones((1,1007))
 tagsb = 0
 
-for filename in filenames:
+for s in filenames:
 
-    tblocka = np.genfromtxt(filename, delimiter=',')
+    tblocka = np.genfromtxt(s, delimiter=',')
+    print np.shape(tblocka)
     tblockb = tblocka[:, 0:-3]
     tblockc = np.vstack((tblockb,tblockc))
     tagsa = tblocka[:,-1]
+
     tagsb = np.hstack((tagsa,tagsb))
 print tagsb
 
 
 
+
 lvInput = tblockc
 lvTarget = tagsb.T
-lFuncs = [None, sgm, linear]
+print np.shape(tblockc)
+lFuncs = [None, sgm, sgm]
 
 bpn = BPNN.BackPropagationNetwork((1007, 3, 1), lFuncs)
 
-lnMax = 200000
-lnErr = 1e-6
+lnMax = 1000
+lnErr = 1e-3
 for i in range(lnMax + 1):
-    err = bpn.TrainEpoch(lvInput, lvTarget, momentum=0.1)
-    if i %  1000== 0 and i > 0:
-        print("Iteration {0:6d}K - Error: {1:0.6f}".format(int(i / 1000), err))
+    err = bpn.TrainEpoch(lvInput, lvTarget, trainingRate=0.001, momentum=0.77)
+    if i %  100== 0 and i > 0:
+        print("Iteration {0:6d}  - Error: {1:0.6f}".format(int(i ),
+                                                             err))
     if err <= lnErr:
         print("Desired error reached. Iter: {0}".format(i))
         break
@@ -90,6 +101,7 @@ print TestBlock1
 TestBlock = TestBlock1[:, 0:-3]
 
 lvOutput = bpn.Run(TestBlock)
-print lvOutput
+
+print np.round(np.abs(lvOutput-1))
 print sum(np.round(lvOutput))
 print np.size(lvOutput)

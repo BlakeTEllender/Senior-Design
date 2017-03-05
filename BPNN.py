@@ -1,6 +1,7 @@
 #
 # Imports
 #
+
 import numpy as np
 
 
@@ -107,22 +108,31 @@ class BackPropagationNetwork:
         # Run it!
         for index in range(self.layerCount):
             # Determine layer input
-            if index == 0:
-                layerInput = self.weights[0].dot(
-                    np.vstack([input.T, np.ones([1, lnCases])]))
-            else:
-                layerInput = self.weights[index].dot(
-                    np.vstack([self._layerOutput[-1], np.ones([1, lnCases])]))
+                if index == 0:
+                    layerInput = self.weights[0].dot(
+                        np.vstack([input.T, np.ones([1, lnCases])]))
+                    #name = raw_input("Which Neural Network is this for?")
+                    #output = "Synapse" + str(index) + name + ".csv"
+                    #np.savetxt(output, self.weights[index], delimiter=",")
+                else:
+                    layerInput = self.weights[index].dot(
+                        np.vstack([self._layerOutput[-1], np.ones([1, lnCases])]))
 
-            self._layerInput.append(layerInput)
-            self._layerOutput.append(self.tFuncs[index](layerInput))
+
+                    #name = raw_input("Which Neural Network is this for?")
+                    #output = "Synapse" + str(index) + name + ".csv"
+                    #np.savetxt(output, self.weights[index], delimiter=",")
+
+                self._layerInput.append(layerInput)
+                self._layerOutput.append(self.tFuncs[index](layerInput))
 
         return self._layerOutput[-1].T
+
 
     #
     # TrainEpoch method
     #
-    def TrainEpoch(self, input, target, trainingRate=0.01, momentum=0.5):
+    def TrainEpoch(self, input, target, trainingRate=0.01, momentum=0.7):
         """This method trains the network for one epoch"""
 
         delta = []
@@ -170,6 +180,9 @@ class BackPropagationNetwork:
             self.weights[index] -= weightDelta
 
             self._previousWeightDelta[index] = weightDelta
+
+
+
 
         return error
 

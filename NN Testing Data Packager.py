@@ -99,8 +99,9 @@ for filename in filenames:
         # Determine what time range to pull the epoc from
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
-        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-                                           14, 15, 16])]
+
+        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                                           13, 14, 15, 16])]
         # FFT of the epoch
         fft = np.transpose(abs(np.fft.fft(epochs, 72)))
 
