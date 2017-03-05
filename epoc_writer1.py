@@ -1,6 +1,7 @@
 import os
 import platform
 import time
+import numpy as np
 import sys
 
 system_platform = platform.system()
@@ -314,6 +315,7 @@ class Emotiv(object):
         self.packets = Queue()
         self.packets_received = 0
         self.packets_processed = 0
+        self.chunk = []
         #self.battery = 0
         self.display_output = display_output
         self.is_research = is_research
@@ -377,23 +379,8 @@ class Emotiv(object):
                         device.open()
                         self.serial_number = device.serial_number
                         device.set_raw_data_handler(self.handler)
-                elif device.product_name == '00000000000':
 
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
-
-                    if useDevice.upper() == "Y":
-                        devicesUsed += 1
-                        devices.append(device)
-                        device.open()
-                        self.serial_number = device.serial_number
-                        device.set_raw_data_handler(self.handler)
                 elif device.product_name == 'Emotiv RAW DATA':
-
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
-
-                    if useDevice.upper() == "Y":
                         devicesUsed += 1
                         devices.append(device)
                         device.open()
@@ -416,6 +403,7 @@ class Emotiv(object):
 
             gevent.kill(crypto, KeyboardInterrupt)
             gevent.kill(console_updater, KeyboardInterrupt)
+        return self.chunk
 
 
     def handler(self, data):
@@ -515,14 +503,15 @@ class Emotiv(object):
                 t = time.clock()
                 t_curr = int(t)
                 current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
-                line_wrt =  counter + [t] + current_line
+                line_wrt = counter + [t] + current_line
                 if t_curr >= epoc_time:
-                    epoc = epoc
-                    self.chunk = epoc
-                    #print epoc
+                    print 'time over 3 sec'
+                    doy = np.array(epoc)
+                    self.chunk = doy
+                    return self.chunk
                 else:
+                    print 'under 3 sec'
                     epoc = epoc + [line_wrt]
-                    self.chunk = []
         gevent.sleep(0)
 
 
@@ -530,12 +519,13 @@ if __name__ == "__main__":
     a = Emotiv()
     try:
         a.setup_windows()
-        epoc = a.update_console.chunk()
-        print epoc
+        while a.running:
+            epoc = a.chunk
+            print a.chunk
     except KeyboardInterrupt:
         a.close()
         print ('Ctrl+C Detected! Bai!')
-        sys.exit()
+        #sys.exit()
 
 
 
