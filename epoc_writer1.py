@@ -505,12 +505,12 @@ class Emotiv(object):
                 current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
                 line_wrt = counter + [t] + current_line
                 if t_curr >= epoc_time:
-                    print 'time over 3 sec'
+                    #print 'time over 3 sec'
                     doy = np.array(epoc)
                     self.chunk = doy
                     return self.chunk
                 else:
-                    print 'under 3 sec'
+                    #print 'under 3 sec'
                     epoc = epoc + [line_wrt]
         gevent.sleep(0)
 
