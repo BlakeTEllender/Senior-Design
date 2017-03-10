@@ -20,15 +20,21 @@ E = Emotiv()
 
 #Setting up the size of the network
 lFuncs = [None, sgm, sgm]
+#Calling BPNN
+r = bpn.BackPropagationNetwork((1007,3,1),lFuncs)
+
+
 
 #Loading Neural Network Layer weights
+f1 = ['Layerweight0Med.csv']
+f2 = ['Layerweight1Med.csv']
 
-r = bpn.BackPropagationNetwork((1007, 3, 1), lFuncs)
-r.weights[0] = np.genfromtxt('0Layerweight.csv', delimiter=',')
-r.weights[1] = np.genfromtxt('1Layerweight.csv', delimiter=',')
+weights0 = np.genfromtxt(f1, delimiter=',')
+weights1 = np.genfromtxt(f2, delimiter=',')
 
-print np.shape(r.weights[0])
-print np.shape(r.weights[1])
+
+print weights0
+print weights1
 
 
 # Setting up index of items that will be replaced as the fft of the training
@@ -50,9 +56,9 @@ recl = time[-1]
 sample2 = sample[-1]
 
 # Preallocating an individual training set
-blocksize = 14*sample2
+blocksize = np.array(14*sample2,dtype=int)
 
-fftblock = np.zeros(2506)
+fftblock = np.zeros(blocksize)
 
 # Average sample rate
 samplerate = sample2 / recl
@@ -68,17 +74,15 @@ fft = np.transpose(abs(np.fft.fft(epoc2, 72)))
 print np.shape(fft)
 print np.shape(fftblock)
 
+range1 = np.arange(0,71)
 
 # Taking the fft from a 2D array to a 1D array
 for i in np.arange(0, 13):
-    fftblock[range1,0] = fft[:,i]
+    fftblock[range1] = fft[i,:]
     range1 = range1 + 72
 # Combining into training data
 NNinput = fftblock
 
 
-
-
-
-TestOutput=r.Run(NNinput)
+TestOutput= r.Run(NNinput)
 print TestOutput

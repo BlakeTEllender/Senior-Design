@@ -94,8 +94,8 @@ for i in range(lnMax + 1):
         break
 
 
-np.savetxt('0Layerweight.csv', bpn.weights[0], delimiter=",")
-np.savetxt('1Layerweight.csv', bpn.weights[1], delimiter=",")
+np.savetxt('Layerweight0Med.csv', bpn.weights[0], delimiter=",")
+np.savetxt('Layerweight1Med.csv', bpn.weights[1], delimiter=",")
 # Testing against other data
 
 TestBlock2 =  'meditation1_Testblock.csv'
