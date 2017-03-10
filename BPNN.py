@@ -111,17 +111,11 @@ class BackPropagationNetwork:
                 if index == 0:
                     layerInput = self.weights[0].dot(
                         np.vstack([input.T, np.ones([1, lnCases])]))
-                    #name = raw_input("Which Neural Network is this for?")
-                    #output = "Synapse" + str(index) + name + ".csv"
-                    #np.savetxt(output, self.weights[index], delimiter=",")
+
                 else:
                     layerInput = self.weights[index].dot(
                         np.vstack([self._layerOutput[-1], np.ones([1, lnCases])]))
 
-
-                    #name = raw_input("Which Neural Network is this for?")
-                    #output = "Synapse" + str(index) + name + ".csv"
-                    #np.savetxt(output, self.weights[index], delimiter=",")
 
                 self._layerInput.append(layerInput)
                 self._layerOutput.append(self.tFuncs[index](layerInput))
@@ -182,9 +176,8 @@ class BackPropagationNetwork:
             self._previousWeightDelta[index] = weightDelta
 
 
-
-
         return error
+
 
 
 #
@@ -199,7 +192,7 @@ if __name__ == "__main__":
     bpn = BackPropagationNetwork((2, 2, 1), lFuncs)
 
     lnMax = 50000
-    lnErr = 1e-6
+    lnErr = 1e-1
     for i in range(lnMax + 1):
         err = bpn.TrainEpoch(lvInput, lvTarget, momentum=0.7)
         if i % 1000 == 0 and i > 0:

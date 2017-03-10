@@ -93,13 +93,11 @@ for filename in filenames:
     tset = np.zeros([14 * 72])
 
     # Preallocating the whole training data block
-    tbsets = np.arange(stop-start-3)
-    tblock = np.zeros((stop-start-3, 1008))
+    tblock = np.zeros((sample2, 1008))
 
     # This loop creates training sets sliding along the time range given
 
-
-    for n in tbsets:
+    for n in sample:
         # Determine what time range to pull the epoc from
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples

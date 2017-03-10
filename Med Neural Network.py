@@ -93,6 +93,9 @@ for i in range(lnMax + 1):
         print("Desired error reached. Iter: {0}".format(i))
         break
 
+
+np.savetxt('0Layerweight.csv', bpn.weights[0], delimiter=",")
+np.savetxt('1Layerweight.csv', bpn.weights[1], delimiter=",")
 # Testing against other data
 
 TestBlock2 =  'meditation1_Testblock.csv'
