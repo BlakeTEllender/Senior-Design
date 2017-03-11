@@ -109,8 +109,7 @@ class BackPropagationNetwork:
         for index in range(self.layerCount):
             # Determine layer input
                 if index == 0:
-                    layerInput = self.weights[0].dot(
-                        np.vstack([input.T, np.ones([1, lnCases])]))
+                    layerInput = self.weights[0].dot(np.vstack([input.T,np.ones([1,lnCases])]))
 
                 else:
                     layerInput = self.weights[index].dot(
@@ -201,9 +200,3 @@ if __name__ == "__main__":
         if err <= lnErr:
             print("Desired error reached. Iter: {0}".format(i))
             break
-
-# Display output
-
-    lvOutput = bpn.Run(lvInput)
-    for i in range(lvInput.shape[0]):
-        print("Input: {0} Output: {1}".format(lvInput[i], lvOutput[i]))

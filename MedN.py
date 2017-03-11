@@ -5,6 +5,7 @@
 #Dependencies
 import numpy as np
 import BPNN
+import csv
 
 
 #Defining the transfer functions and their derivatives
@@ -96,6 +97,7 @@ for i in range(lnMax + 1):
 
 np.savetxt('Layerweight0Med.csv', bpn.weights[0], delimiter=",")
 np.savetxt('Layerweight1Med.csv', bpn.weights[1], delimiter=",")
+
 # Testing against other data
 
 TestBlock2 =  'meditation1_Testblock.csv'
