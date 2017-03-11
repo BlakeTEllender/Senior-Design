@@ -55,10 +55,18 @@ def truncLinear(x, Derivative=False):
 #             "meditation2", "blink _1_60sec", "blink_2_60sec",
 #             "blink_3_60sec", "baseline_2", "baseline_3"]
 
-filenames1 = ["EMG_1_30sec", "eyeblink_1_30sec", "meditation2", "baseline_2"]
+filenames1 = ["\EMG_1_30sec", "\eyeblink_1_30sec", "\meditation2",
+              "aseline_2"]
 
 
-filenames =  [ s + "_Tblock.csv" for s in filenames1]
+filenames =  ["C:\Users\Blake\Documents\GitHub\Senior-Design"
+              "\EMG_1_30sec_Tblock.csv",
+              "C:\Users\Blake\Documents\GitHub\Senior-Design"
+              "\EMG_1_30sec_Tblock.csv",
+              "C:\Users\Blake\Documents\GitHub\Senior-Design"
+              "\EMG_1_30sec_Tblock.csv",
+              "C:\\Users\\Blake\\Documents\\GitHub\\Senior-Design"
+              "\\baseline_2_Tblock.csv"]
 tblockc = np.ones((1,1007))
 tagsb = 0
 
@@ -100,13 +108,13 @@ np.savetxt('Layerweight1Med.csv', bpn.weights[1], delimiter=",")
 
 # Testing against other data
 
-TestBlock2 =  'meditation1_Testblock.csv'
-TestBlock1 = np.genfromtxt(TestBlock2, delimiter=',')
-print TestBlock1
-TestBlock = TestBlock1[:, 0:-3]
+#TestBlock2 =  'meditation1_Testblock.csv'
+#TestBlock1 = np.genfromtxt(TestBlock2, delimiter=',')
+#print TestBlock1
+#TestBlock = TestBlock1[:, 0:-3]
 
-lvOutput = bpn.Run(TestBlock)
+#lvOutput = bpn.Run(TestBlock)
 
-print np.round(np.abs(lvOutput-1))
-print sum(np.round(lvOutput))
-print np.size(lvOutput)
+#print np.round(np.abs(lvOutput-1))
+#print sum(np.round(lvOutput))
+#print np.size(lvOutput)

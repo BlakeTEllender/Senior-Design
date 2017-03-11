@@ -110,11 +110,13 @@ class BackPropagationNetwork:
             # Determine layer input
                 if index == 0:
                     layerInput = self.weights[0].dot(np.vstack([input.T,
-                                                                np.ones([1,lnCases])]))
+                                                                np.ones([1,
+                                                                         lnCases])]).T)
 
                 else:
                     layerInput = self.weights[index].dot(
-                        np.vstack([self._layerOutput[-1], np.ones([1, lnCases])]))
+                        np.vstack([self._layerOutput[-1], np.ones([1,
+                                                                   lnCases])]))
 
 
                 self._layerInput.append(layerInput)

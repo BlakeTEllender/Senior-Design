@@ -1,6 +1,6 @@
 import numpy as np
-import BPNN as bpn
-import MedN
+import BPNN2 as bpn
+
 
 # Meditation Lamp Master Module!!!
 # Team Six
@@ -21,23 +21,27 @@ def sgm(x, Derivative=False):
 # Caling Emotiv
 E = Emotiv()
 
-# Setting up the size of the network
-lFuncs = [None, sgm, sgm]
-# Calling BPNN
-r = bpn.BackPropagationNetwork((1007, 3, 1), lFuncs)
 
-# Loading Neural Network Layer weights Layerweight0Med.csv
+# Loading Neural Network Layer weights
 
-weights0 = np.genfromtxt(
+weights0Med = np.genfromtxt(
     'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight0Med.csv',
     delimiter=",")
-weights1 = np.genfromtxt(
+weights1Med = np.genfromtxt(
     'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight1Med.csv',
     delimiter=',')
-
+weights0OnOff = np.genfromtxt(
+    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight0Med.csv',
+    delimiter=",")
+weights1OnOff = np.genfromtxt(
+    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight1Med.csv',
+    delimiter=',')
 # Setting up index of items that will be replaced as the fft of the training
 # set gets taken from 2D to 1D
 range1 = np.arange(72)
+
+# Preallocating an individual training set
+fftblock = np.zeros((1008))
 
 # Getting 3 Sec Epoc
 E.update_console()
@@ -53,11 +57,11 @@ recl = time[-1]
 # Number of samples taken
 sample2 = sample[-1]
 
-# Preallocating an individual training set
-fftblock = np.zeros(1008)
+
 
 # Average sample rate
 samplerate = sample2 / recl
+print "Sample Rate"
 print samplerate
 
 # Cutting down to just EEG Samples
@@ -75,14 +79,20 @@ for i in np.arange(0, 13):
     fftblock[range1] = fft[i, :]
     range1 = range1 + 72
 
-# Combining into training data
+fftblock = np.vstack([fftblock, np.ones([1,1008])])
 
-print MedN.bpn.Run(fftblock)
+l0 = fftblock
+l1m = sgm(np.dot(l0, weights0Med.T))
+l2m = sgm(np.dot(np.hstack([l1m, np.ones([2, 1])]), weights1Med))
 
-# print np.shape(fftblock)
-# print np.shape(weights0)
-# print np.shape(weights1)
-# r.weights[0]=weights0
-# r.weights[1]=weights1
+l1O = sgm(np.dot(l0, weights0OnOff.T))
+l2O = sgm(np.dot(np.hstack([l1m, np.ones([2, 1])]), weights1OnOff))
 
-# TestOutput = r.Run(fftblock)
+Output = [l2m[0], l2O[0]]
+
+print "Meditation Detected?"
+print Output[0]
+print "OnOff Trigger Detected?"
+print Output[1]
+
+
