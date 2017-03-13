@@ -38,6 +38,10 @@ weights1OnOff = np.genfromtxt(
 # set gets taken from 2D to 1D
 range1 = np.arange(72)
 
+# Setting up value for temporal addition of meditation level
+lastiteration = 0
+
+
 # 30 minute session loop
 
 E.update_console()
@@ -93,8 +97,9 @@ for x in xrange(1,600):
     #Pushing through OnOff NN
     l1O = sgm(np.dot(l0, weights0OnOff.T))
     l2O = sgm(np.dot(np.hstack([l1m, np.ones([2, 1])]), weights1OnOff))
-
-    Output = [l2m[0], l2O[0]]
+    MLevel = (l2m[0] + lastiteration)
+    lastiteration = l2m[0]
+    Output = [MLevel, l2O[0]]
 
     print "Meditation Detected?"
     print Output[0]
