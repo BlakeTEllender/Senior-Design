@@ -6,6 +6,7 @@
 from epoc_writer1 import Emotiv
 import numpy as np
 
+
 # Defining the transfer function
 def sgm(x, Derivative=False):
     if not Derivative:
@@ -38,12 +39,11 @@ weights1OnOff = np.genfromtxt(
 range1 = np.arange(72)
 
 # 30 minute session loop
-E.update_console()
 
+E.update_console()
 for x in xrange(1,600):
 
     # Getting 3 Sec Epoc
-    epoc = []
     epoc = E.chunk
 
 

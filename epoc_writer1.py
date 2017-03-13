@@ -487,11 +487,11 @@ class Emotiv(object):
         """
         Greenlet that outputs sensor, gyro and battery values to the console and stores values in csv file.
         """
-        count = 0 #initializing values
+        count = 0  # initializing values
         t_curr = 0
         cycles = 1
         last_tme = 1
-        epoc_time = 3 #desired length of epoc[sec]
+        epoc_time = 3  # desired length of epoc[sec]
 
         epoc = []
 
