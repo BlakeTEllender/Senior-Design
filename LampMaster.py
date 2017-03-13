@@ -29,10 +29,10 @@ weights1Med = np.genfromtxt(
     'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight1Med.csv',
     delimiter=',')
 weights0OnOff = np.genfromtxt(
-    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight0Med.csv',
+    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight0OnOff.csv',
     delimiter=",")
 weights1OnOff = np.genfromtxt(
-    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight1Med.csv',
+    'C:\Users\Blake\Documents\GitHub\Senior-Design\Layerweight1OnOff.csv',
     delimiter=',')
 # Setting up index of items that will be replaced as the fft of the training
 # set gets taken from 2D to 1D
