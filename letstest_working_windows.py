@@ -1,11 +1,11 @@
-import epoc_writer1
-from epoc_writer1 import Emotiv
+import epoc_writer_working_windows
+from epoc_writer_working_windows import Emotiv
 import time
 
 
 #test program to collect data in lists and add to csv
 #
-epoc = Emotiv(3)
+epoc = Emotiv()
 while True:
     print 'prebutts'
     epoc.update_console()

@@ -7,7 +7,7 @@ from epoc_writer1 import Emotiv
 epoc = Emotiv()
 epoc.update_console()
 sample = epoc.chunk
-
+print sample
 
 
 

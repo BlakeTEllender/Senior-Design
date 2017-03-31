@@ -44,25 +44,27 @@ lastiteration = 0
 
 # 30 minute session loop
 
-E.update_console()
+
 for x in xrange(1,600):
 
     # Getting 3 Sec Epoc
+    E.update_console()
     epoc = E.chunk
+    print E.chunk
 
 
     # Preallocating an individual training set
     fftblock = np.zeros((1008))
 
     # Separating time and samples
-    sample = epoc[:, 0]
+    samples = epoc[:, 0]
     time = epoc[:, 1]
 
     #Recording length
     recl = time[-1]
 
     # Number of samples taken
-    sample2 = sample[-1]
+    sample2 = samples[-1]
 
 
 
@@ -99,7 +101,7 @@ for x in xrange(1,600):
     l2O = sgm(np.dot(np.hstack([l1m, np.ones([2, 1])]), weights1OnOff))
     MLevel = (l2m[0] + lastiteration)
     lastiteration = l2m[0]
-    Output = [MLevel, l2O[0]]
+    Output = (MLevel, l2O[0])
 
     print "Meditation Detected?"
     print Output[0]

@@ -1,18 +1,20 @@
 import os
+import csv
 import platform
 import time
-import numpy as np
-import sys
 
 system_platform = platform.system()
-import socket  # Needed to prevent gevent crashing on Windows. (surfly / gevent issue #459)
-import pywinusb.hid as hid
+if system_platform == "Windows":
+    import socket  # Needed to prevent gevent crashing on Windows. (surfly / gevent issue #459)
+    import pywinusb.hid as hid
+else:
+    if system_platform == "Darwin":
+        import hid
 import gevent
 from Crypto.Cipher import AES
 from Crypto import Random
 from gevent.queue import Queue
 from subprocess import check_output
-epoc = []
 
 # How long to gevent-sleep if there is no data on the EEG.
 # To be precise, this is not the frequency to poll on the input device
@@ -24,7 +26,7 @@ epoc = []
 # You can set this lower to reduce idle CPU usage; it has no effect
 # as long as data is being read from the queue, so it is rather a
 # "resume" delay.
-DEVICE_POLL_INTERVAL = 0.1  # in seconds
+DEVICE_POLL_INTERVAL = 0.001# in seconds
 
 sensor_bits = {
     'F3': [10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7],
@@ -275,28 +277,82 @@ class EmotivPacket(object):
         Initializes packet data. Sets the global battery value.
         Updates each sensor with current sensor value from the packet data.
         """
-
+        global g_battery
         self.raw_data = data
         self.counter = ord(data[0])
-
+        self.battery = g_battery
         if self.counter > 127:
+            self.battery = self.counter
+            g_battery = battery_values[str(self.battery)]
             self.counter = 128
         self.sync = self.counter == 0xe9
+        self.gyro_x = ord(data[29]) - 106
+        self.gyro_y = ord(data[30]) - 105
+        sensors['X']['value'] = self.gyro_x
+        sensors['Y']['value'] = self.gyro_y
         for name, bits in sensor_bits.items():
             # Get Level for sensors subtract 8192 to get signed value
             value = get_level(self.raw_data, bits) - 8192
             setattr(self, name, (value,))
             sensors[name]['value'] = value
         self.old_model = model
+        self.handle_quality(sensors)
         self.sensors = sensors
 
+    def handle_quality(self, sensors):
+        """
+        Sets the quality value for the sensor from the quality bits in the packet data.
+        Optionally will return the value.
+        """
+        if self.old_model:
+            current_contact_quality = get_level(self.raw_data, quality_bits) / 540
+        else:
+            current_contact_quality = get_level(self.raw_data, quality_bits) / 1024
+        sensor = ord(self.raw_data[0])
+        if sensor == 0 or sensor == 64:
+            sensors['F3']['quality'] = current_contact_quality
+        elif sensor == 1 or sensor == 65:
+            sensors['FC5']['quality'] = current_contact_quality
+        elif sensor == 2 or sensor == 66:
+            sensors['AF3']['quality'] = current_contact_quality
+        elif sensor == 3 or sensor == 67:
+            sensors['F7']['quality'] = current_contact_quality
+        elif sensor == 4 or sensor == 68:
+            sensors['T7']['quality'] = current_contact_quality
+        elif sensor == 5 or sensor == 69:
+            sensors['P7']['quality'] = current_contact_quality
+        elif sensor == 6 or sensor == 70:
+            sensors['O1']['quality'] = current_contact_quality
+        elif sensor == 7 or sensor == 71:
+            sensors['O2']['quality'] = current_contact_quality
+        elif sensor == 8 or sensor == 72:
+            sensors['P8']['quality'] = current_contact_quality
+        elif sensor == 9 or sensor == 73:
+            sensors['T8']['quality'] = current_contact_quality
+        elif sensor == 10 or sensor == 74:
+            sensors['F8']['quality'] = current_contact_quality
+        elif sensor == 11 or sensor == 75:
+            sensors['AF4']['quality'] = current_contact_quality
+        elif sensor == 12 or sensor == 76 or sensor == 80:
+            sensors['FC6']['quality'] = current_contact_quality
+        elif sensor == 13 or sensor == 77:
+            sensors['F4']['quality'] = current_contact_quality
+        elif sensor == 14 or sensor == 78:
+            sensors['F8']['quality'] = current_contact_quality
+        elif sensor == 15 or sensor == 79:
+            sensors['AF4']['quality'] = current_contact_quality
+        else:
+            sensors['Unknown']['quality'] = current_contact_quality
+            sensors['Unknown']['value'] = sensor
+        return current_contact_quality
 
     def __repr__(self):
-        """
+        """z
         Returns custom string representation of the Emotiv Packet.
         """
         return 'EmotivPacket(counter=%i, battery=%i, gyro_x=%i, gyro_y=%i)' % (
             self.counter,
+            self.battery,
             self.gyro_x,
             self.gyro_y)
 
@@ -314,8 +370,7 @@ class Emotiv(object):
         self.packets = Queue()
         self.packets_received = 0
         self.packets_processed = 0
-        self.chunk = []
-        #self.battery = 0
+        self.battery = 0
         self.display_output = display_output
         self.is_research = is_research
         self.sensors = {
@@ -332,19 +387,33 @@ class Emotiv(object):
             'AF3': {'value': 0, 'quality': 0},
             'O2': {'value': 0, 'quality': 0},
             'O1': {'value': 0, 'quality': 0},
-            'FC5': {'value': 0, 'quality': 0}
+            'FC5': {'value': 0, 'quality': 0},
+            'X': {'value': 0, 'quality': 0},
+            'Y': {'value': 0, 'quality': 0},
+            'Unknown': {'value': 0, 'quality': 0}
         }
 
         self.serial_number = serial_number  # You will need to set this manually for OS X.
         self.old_model = False
 
+    def setup(self):
+        """
+        Runs setup function depending on platform.
+        """
+
+        print system_platform + " detected."
+        if system_platform == "Windows":
+            self.setup_windows()
+        elif system_platform == "Linux":
+            self.setup_posix()
+        elif system_platform == "Darwin":
+            self.setup_darwin()
 
     def setup_windows(self):
         """
         Setup for headset on the Windows platform.
         """
         devices = []
-
         try:
             devicesUsed = 0
             for device in hid.find_all_hid_devices():
@@ -378,8 +447,23 @@ class Emotiv(object):
                         device.open()
                         self.serial_number = device.serial_number
                         device.set_raw_data_handler(self.handler)
+                elif device.product_name == '00000000000':
 
+                    print "\n" + device.product_name + " Found!\n"
+                    useDevice = raw_input("Use this device? [Y]es? ")
+
+                    if useDevice.upper() == "Y":
+                        devicesUsed += 1
+                        devices.append(device)
+                        device.open()
+                        self.serial_number = device.serial_number
+                        device.set_raw_data_handler(self.handler)
                 elif device.product_name == 'Emotiv RAW DATA':
+
+                    print "\n" + device.product_name + " Found!\n"
+                    useDevice = raw_input("Use this device? [Y]es? ")
+
+                    if useDevice.upper() == "Y":
                         devicesUsed += 1
                         devices.append(device)
                         device.open()
@@ -402,8 +486,6 @@ class Emotiv(object):
 
             gevent.kill(crypto, KeyboardInterrupt)
             gevent.kill(console_updater, KeyboardInterrupt)
-        return self.chunk
-
 
     def handler(self, data):
         """
@@ -414,6 +496,96 @@ class Emotiv(object):
         tasks.put_nowait(''.join(map(chr, data[1:])))
         self.packets_received += 1
         return True
+
+    def setup_posix(self):
+        """
+        Setup for headset on the Linux platform.
+        Receives packets from headset and sends them to a Queue to be processed
+        by the crypto greenlet.
+        """
+        _os_decryption = False
+        if os.path.exists('/dev/eeg/raw'):
+            # The decryption is handled by the Linux epoc daemon. We don't need to handle it.
+            _os_decryption = True
+            hidraw = open("/dev/eeg/raw")
+        else:
+            serial, hidraw_filename = get_linux_setup()
+            self.serial_number = serial
+            if os.path.exists("/dev/" + hidraw_filename):
+                hidraw = open("/dev/" + hidraw_filename)
+            else:
+                hidraw = open("/dev/hidraw4")
+            crypto = gevent.spawn(self.setup_crypto, self.serial_number)
+        console_updater = gevent.spawn(self.update_console)
+        while self.running:
+            try:
+                data = hidraw.read(32)
+                if data != "":
+                    if _os_decryption:
+                        self.packets.put_nowait(EmotivPacket(data))
+                    else:
+                        # Queue it!
+                        self.packets_received += 1
+                        tasks.put_nowait(data)
+                    gevent.sleep(0)
+                else:
+                    # No new data from the device; yield
+                    # We cannot sleep(0) here because that would go 100% CPU if both queues are empty
+                    gevent.sleep(DEVICE_POLL_INTERVAL)
+            except KeyboardInterrupt:
+                self.running = False
+        hidraw.close()
+        if not _os_decryption:
+            gevent.kill(crypto, KeyboardInterrupt)
+        gevent.kill(console_updater, KeyboardInterrupt)
+
+    def setup_darwin(self):
+        """
+        Setup for headset on the OS X platform.
+        Receives packets from headset and sends them to a Queue to be processed
+        by the crypto greenlet.
+        """
+        _os_decryption = False
+        # Change these values to the hex equivalent from the output of hid_enumerate. If they are incorrect.
+        # Current values = VendorID: 8609 ProductID: 1
+        hidraw = hid.device(0x21a1, 0x0001)
+        if not hidraw:
+            hidraw = hid.device(0x21a1, 0x1234)
+        if not hidraw:
+            hidraw = hid.device(0xed02, 0x1234)
+        if not hidraw:
+            print "Device not found. Uncomment the code in setup_darwin and modify hid.device(vendor_id, product_id)"
+            raise ValueError
+        if self.serial_number == "":
+            print "Serial number needs to be specified manually in __init__()."
+            raise ValueError
+        crypto = gevent.spawn(self.setup_crypto, self.serial_number)
+        console_updater = gevent.spawn(self.update_console)
+        zero = 0
+        while self.running:
+            try:
+                # Doesn't seem to matter how big we make the buffer 32 returned every time, 33 for other platforms
+                data = hidraw.read(34)
+                if len(data) == 32:
+                    # Most of the time the 0 is truncated? That's ok we'll add it...
+                    data = [zero] + data
+                if data != "":
+                    if _os_decryption:
+                        self.packets.put_nowait(EmotivPacket(data))
+                    else:
+                        # Queue it!
+                        tasks.put_nowait(''.join(map(chr, data[1:])))
+                        self.packets_received += 1
+                    gevent.sleep(0)
+                else:
+                    # No new data from the device; yield
+                    # We cannot sleep(0) here because that would go 100% CPU if both queues are empty.
+                    gevent.sleep(DEVICE_POLL_INTERVAL)
+            except KeyboardInterrupt:
+                self.running = False
+        hidraw.close()
+        gevent.kill(crypto, KeyboardInterrupt)
+        gevent.kill(console_updater, KeyboardInterrupt)
 
     def setup_crypto(self, sn):
         """
@@ -447,7 +619,9 @@ class Emotiv(object):
             k[10] = sn[-2]
             k[11] = 'H'
         k[12] = sn[-3]
-        #removed 13-15, X,Y,Unknown
+        k[13] = '\0'
+        k[14] = sn[-4]
+        k[15] = 'P'
         key = ''.join(k)
         iv = Random.new().read(AES.block_size)
         cipher = AES.new(key, AES.MODE_ECB, iv)
@@ -484,53 +658,39 @@ class Emotiv(object):
 
     def update_console(self):
         """
-        Greenlet that outputs sensor, gyro and battery values to the console and stores values in csv file.
+        Greenlet that outputs sensor, gyro and battery values once per second to the console.
         """
-        count = 0  # initializing values
-        T=time.time()
-        t_curr = 0
-        cycles = 1
-        last_tme = 1
-        epoc_time = 3  # desired length of epoc[sec]
-
-        epoc = []
-
+        count = 0
+        stor_csv_name = 'Blake_blink_30sec_3.csv'
+        with open(stor_csv_name,'wb') as fp:
+            wr = csv.writer(fp, delimiter = ',')
+            lead_names = (
+            'Counter:','Time:','Y:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:', 'P8:', 'FC5:', 'AF4:', 'Unknown:', 'T8:', 'X:',
+            'O2:', 'O1:', 'AF3:')
+            wr.writerow(lead_names)
         if self.display_output:
             while self.running:
-                os.system('cls')
-                count += 1
-                counter = [count]
-                t = time.time() - T
-                t_curr = int(t)
-                current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
-                line_wrt = counter + [t] + current_line
-                if t_curr >= epoc_time:
-                    #print 'time over 3 sec'
-                    doy = np.array(epoc)
-                    self.chunk = doy
-                    return self.chunk
+                if system_platform == "Windows":
+                    os.system('cls')
                 else:
-                    #print 'under 3 sec'
-                    epoc = epoc + [line_wrt]
-                    #self.chunk = epoc
-                    #return self.chunk
-        gevent.sleep(0)
+                    os.system('clear')
+                with open(stor_csv_name, 'ab') as fp:
+                    count += 1
+                    counter = [count]
+                    t = [time.clock()]
+                    wr = csv.writer(fp, delimiter=',')
+                    current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
+                    line_wrt = counter + t + current_line
+                    print (line_wrt)
+                    wr.writerow(line_wrt)
+                gevent.sleep(0)
+
+
 
 
 if __name__ == "__main__":
     a = Emotiv()
     try:
-        a.setup_windows()
-        while a.running:
-            epoc = a.chunk
-            print a.chunk
+        a.setup()
     except KeyboardInterrupt:
         a.close()
-        print ('Ctrl+C Detected! Bai!')
-        #sys.exit()
-
-
-
-
-
-

@@ -1,8 +1,7 @@
 import os
+import csv
 import platform
 import time
-import numpy as np
-import sys
 
 system_platform = platform.system()
 import socket  # Needed to prevent gevent crashing on Windows. (surfly / gevent issue #459)
@@ -12,7 +11,6 @@ from Crypto.Cipher import AES
 from Crypto import Random
 from gevent.queue import Queue
 from subprocess import check_output
-epoc = []
 
 # How long to gevent-sleep if there is no data on the EEG.
 # To be precise, this is not the frequency to poll on the input device
@@ -24,7 +22,7 @@ epoc = []
 # You can set this lower to reduce idle CPU usage; it has no effect
 # as long as data is being read from the queue, so it is rather a
 # "resume" delay.
-DEVICE_POLL_INTERVAL = 0.1  # in seconds
+DEVICE_POLL_INTERVAL = 0.001  # in seconds
 
 sensor_bits = {
     'F3': [10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7],
@@ -314,7 +312,6 @@ class Emotiv(object):
         self.packets = Queue()
         self.packets_received = 0
         self.packets_processed = 0
-        self.chunk = []
         #self.battery = 0
         self.display_output = display_output
         self.is_research = is_research
@@ -338,13 +335,20 @@ class Emotiv(object):
         self.serial_number = serial_number  # You will need to set this manually for OS X.
         self.old_model = False
 
+    def setup(self):
+        """
+        Runs setup function depending on platform.
+        """
+
+        print system_platform + " detected."
+        if system_platform == "Windows":
+            self.setup_windows()
 
     def setup_windows(self):
         """
         Setup for headset on the Windows platform.
         """
         devices = []
-
         try:
             devicesUsed = 0
             for device in hid.find_all_hid_devices():
@@ -378,8 +382,23 @@ class Emotiv(object):
                         device.open()
                         self.serial_number = device.serial_number
                         device.set_raw_data_handler(self.handler)
+                elif device.product_name == '00000000000':
 
+                    print "\n" + device.product_name + " Found!\n"
+                    useDevice = raw_input("Use this device? [Y]es? ")
+
+                    if useDevice.upper() == "Y":
+                        devicesUsed += 1
+                        devices.append(device)
+                        device.open()
+                        self.serial_number = device.serial_number
+                        device.set_raw_data_handler(self.handler)
                 elif device.product_name == 'Emotiv RAW DATA':
+
+                    print "\n" + device.product_name + " Found!\n"
+                    useDevice = raw_input("Use this device? [Y]es? ")
+
+                    if useDevice.upper() == "Y":
                         devicesUsed += 1
                         devices.append(device)
                         device.open()
@@ -402,8 +421,6 @@ class Emotiv(object):
 
             gevent.kill(crypto, KeyboardInterrupt)
             gevent.kill(console_updater, KeyboardInterrupt)
-        return self.chunk
-
 
     def handler(self, data):
         """
@@ -486,51 +503,42 @@ class Emotiv(object):
         """
         Greenlet that outputs sensor, gyro and battery values to the console and stores values in csv file.
         """
-        count = 0  # initializing values
-        T=time.time()
+        count = 0 #initializing values
         t_curr = 0
         cycles = 1
         last_tme = 1
-        epoc_time = 3  # desired length of epoc[sec]
-
-        epoc = []
-
+        csv_name = raw_input("Enter name for csv file '<name>.csv':  \n")
+        with open(csv_name,'wb') as fp:
+            wr = csv.writer(fp, delimiter = ',')
+            lead_names = ('Sampling Freq:','Counter:','Time:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:',
+                          'P8:', 'FC5:', 'AF4:', 'T8:','O2:', 'O1:', 'AF3:')
+            wr.writerow(lead_names)
         if self.display_output:
             while self.running:
                 os.system('cls')
-                count += 1
-                counter = [count]
-                t = time.time() - T
-                t_curr = int(t)
-                current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
-                line_wrt = counter + [t] + current_line
-                if t_curr >= epoc_time:
-                    #print 'time over 3 sec'
-                    doy = np.array(epoc)
-                    self.chunk = doy
-                    return self.chunk
-                else:
-                    #print 'under 3 sec'
-                    epoc = epoc + [line_wrt]
-                    #self.chunk = epoc
-                    #return self.chunk
-        gevent.sleep(0)
+                with open(csv_name, 'ab') as fp:
+                    count += 1
+                    counter = [count]
+                    t = time.clock()
+                    t_curr = int(t)
+                    if t_curr == last_tme:
+                        samp_freq = [cycles]
+                        cycles = 1
+                        last_tme = t_curr + 1
+                    else:
+                        samp_freq = ['']
+                        cycles = cycles +1
+                    wr = csv.writer(fp, delimiter=',')
+                    current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
+                    line_wrt =  samp_freq + counter + [t] + current_line
+                    print (line_wrt)
+                    wr.writerow(line_wrt)
+                gevent.sleep(0)
 
 
 if __name__ == "__main__":
     a = Emotiv()
     try:
-        a.setup_windows()
-        while a.running:
-            epoc = a.chunk
-            print a.chunk
+        a.setup()
     except KeyboardInterrupt:
         a.close()
-        print ('Ctrl+C Detected! Bai!')
-        #sys.exit()
-
-
-
-
-
-
