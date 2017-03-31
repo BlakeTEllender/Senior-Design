@@ -3,6 +3,7 @@ import platform
 import time
 import numpy as np
 import sys
+import conflict
 system_platform = platform.system()
 if system_platform == "Darwin":
     import hid
@@ -429,7 +430,7 @@ class Emotiv(object):
             crypto = gevent.spawn(self.setup_crypto, self.serial_number)
             #print crypto # serial_number comes back 'UD20160303001D8D'
             print ('crypto line 430')
-        console_updater = gevent.spawn(self.update_console)
+        console_updater = gevent.spawn(self.update_console())
         #print console_updater #chunk comes back ''
         print ('console_updater line 432')
         while self.running:
@@ -553,8 +554,9 @@ class Emotiv(object):
                 
                 if t_curr >= epoc_time:
                     #print 'time over 3 sec'
-                    self.doy = np.array(epoc) 
-                    return self.doy
+                    conflict.doy = np.array(epoc) 
+                    print conflict.doy
+                    return 0
                 else:
                     #print 'under 3 sec'
                     epoc = epoc + [line_wrt]
