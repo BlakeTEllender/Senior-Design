@@ -80,7 +80,9 @@ lFuncs = [None, sgm, sgm]
 bpn = BPNN.BackPropagationNetwork((1007, 3, 1), lFuncs)
 
 lnMax = 50000
-lnErr = 1
+lnErr = 3
+
+
 for i in range(lnMax + 1):
     err = bpn.TrainEpoch(lvInput, lvTarget,  trainingRate=0.001, momentum=0.77)
     if i %  10 == 0 and i > 0:
@@ -94,7 +96,7 @@ np.savetxt('Layerweight1OnOff.csv', bpn.weights[1], delimiter=",")
 
 # Test against other data
 
-TestBlock2 =  'eyeblink_3_30sec_Tblock.csv'
+TestBlock2 =  'C:\Users\Blake\Documents\GitHub\Senior-Design\OnOff_TBlock.csv'
 TestBlock1 = np.genfromtxt(TestBlock2, delimiter=',')
 print TestBlock1
 TestBlock = TestBlock1[:, 0:-3]

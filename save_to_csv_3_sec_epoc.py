@@ -214,35 +214,39 @@ def get_linux_setup():
     Returns hidraw device path and headset serial number.
     """
     raw_inputs = []
-    for filename in os.listdir("/sys/class/hidraw"):
-        real_path = check_output(["realpath", "/sys/class/hidraw/" + filename])
-        split_path = real_path.split('/')
-        s = len(split_path)
+    for filename in os.listdir("/sys/class/hidraw"): #opens hidraw folders to find location of USB cnxns
+        #filename is hidraw() , name of directory folder
+        real_path = check_output(["realpath", "/sys/class/hidraw/" + filename]) #subprocess.check_output, returns output as a byte string
+        #real_path is entire location of device
+        split_path = real_path.split('/') #divides path into chunks betweeen "/"
+        s = len(split_path) #number of chunks btwn slashes
         s -= 4
         i = 0
         path = ""
-        while s > i:
+        while s > i: #makes path only have first 7 chunks of the real_path
             path = path + split_path[i] + "/"
             i += 1
-        raw_inputs.append([path, filename])
+        raw_inputs.append([path, filename]) #adds hidraw folder, i.e. hidraw0, hidraw1, hidraw2. . .
     for input in raw_inputs:
         try:
             with open(input[0] + "/manufacturer", 'r') as f:
                 manufacturer = f.readline()
+                print "manufacturer =   " + manufacturer
                 f.close()
-            if "Emotiv Systems" in manufacturer:
+            if "Emotiv" in manufacturer:
+                print ('Found Emotiv')
                 with open(input[0] + "/serial", 'r') as f:
                     serial = f.readline().strip()
                     f.close()
                 print "Serial: " + serial + " Device: " + input[1]
-                # Great we found it. But we need to use the second one...
+                # Great we found it. But we need to use the second one...(I don't know why)
                 hidraw = input[1]
                 hidraw_id = int(hidraw[-1])
                 # The dev headset might use the first device, or maybe if more than one are connected they might.
                 hidraw_id += 1
                 hidraw = "hidraw" + hidraw_id.__str__()
                 print "Serial: " + serial + " Device: " + hidraw + " (Active)"
-                return [serial, hidraw, ]
+                return [serial, hidraw]
         except IOError as e:
             print "Couldn't open file: %s" % e
 
@@ -387,10 +391,7 @@ class Emotiv(object):
             'AF3': {'value': 0, 'quality': 0},
             'O2': {'value': 0, 'quality': 0},
             'O1': {'value': 0, 'quality': 0},
-            'FC5': {'value': 0, 'quality': 0},
-            'X': {'value': 0, 'quality': 0},
-            'Y': {'value': 0, 'quality': 0},
-            'Unknown': {'value': 0, 'quality': 0}
+            'FC5': {'value': 0, 'quality': 0}
         }
 
         self.serial_number = serial_number  # You will need to set this manually for OS X.
@@ -575,7 +576,7 @@ class Emotiv(object):
                         # Queue it!
                         tasks.put_nowait(''.join(map(chr, data[1:])))
                         self.packets_received += 1
-                    gevent.sleep(0)
+                    gevent.sleep(0.1)
                 else:
                     # No new data from the device; yield
                     # We cannot sleep(0) here because that would go 100% CPU if both queues are empty.
@@ -665,7 +666,7 @@ class Emotiv(object):
         with open(stor_csv_name,'wb') as fp:
             wr = csv.writer(fp, delimiter = ',')
             lead_names = (
-            'Counter:','Time:','Y:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:', 'P8:', 'FC5:', 'AF4:', 'Unknown:', 'T8:', 'X:',
+            'Counter:','Time:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:', 'P8:', 'FC5:', 'AF4:', 'T8:',
             'O2:', 'O1:', 'AF3:')
             wr.writerow(lead_names)
         if self.display_output:

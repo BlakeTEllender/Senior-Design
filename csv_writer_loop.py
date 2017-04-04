@@ -354,10 +354,10 @@ class Emotiv(object):
         try:
             devicesUsed = 0
             for device in hid.find_all_hid_devices():
-                print "Product name " + device.product_name
-                print "device path " + device.device_path
-                print "instance id " + device.instance_id
-                print "\r\n"
+                # print "Product name " + device.product_name
+                # print "device path " + device.device_path
+                # print "instance id " + device.instance_id
+                # print "\r\n"
                 useDevice = ""
 
                 # if device.vendor_id != 0x21A1 and device.vendor_id != 0xED02:
@@ -365,8 +365,8 @@ class Emotiv(object):
 
                 if device.product_name == 'EEG Signals':
 
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
+                    # print "\n" + device.product_name + " Found!\n"
+                    useDevice = "Y"
 
                     if useDevice.upper() == "Y":
                         devicesUsed += 1
@@ -376,8 +376,8 @@ class Emotiv(object):
                         device.set_raw_data_handler(self.handler)
                 elif device.product_name == 'Brain Computer Interface USB Receiver/Dongle':
 
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
+                    # print "\n" + device.product_name + " Found!\n"
+                    useDevice = "Y"
                     if useDevice.upper() == "Y":
                         devicesUsed += 1
                         devices.append(device)
@@ -386,8 +386,8 @@ class Emotiv(object):
                         device.set_raw_data_handler(self.handler)
                 elif device.product_name == '00000000000':
 
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
+                    # print "\n" + device.product_name + " Found!\n"
+                    useDevice = "Y"
 
                     if useDevice.upper() == "Y":
                         devicesUsed += 1
@@ -397,8 +397,8 @@ class Emotiv(object):
                         device.set_raw_data_handler(self.handler)
                 elif device.product_name == 'Emotiv RAW DATA':
 
-                    print "\n" + device.product_name + " Found!\n"
-                    useDevice = raw_input("Use this device? [Y]es? ")
+                    # print "\n" + device.product_name + " Found!\n"
+                    useDevice = "Y"
 
                     if useDevice.upper() == "Y":
                         devicesUsed += 1
@@ -407,13 +407,12 @@ class Emotiv(object):
                         self.serial_number = device.serial_number
                         device.set_raw_data_handler(self.handler)
 
-            print "\n\n Devices Selected: " + str(devicesUsed)
+            # print "\n\n Devices Selected: " + str(devicesUsed)
             crypto = gevent.spawn(self.setup_crypto, self.serial_number)
             console_updater = gevent.spawn(self.update_console,self.csv_name,self.last_tme)
-            raw_input("Press Enter to continue...")
             while self.running:
                 try:
-                    gevent.sleep(0)
+                    gevent.sleep(0.01)
 
                 except KeyboardInterrupt:
                     self.running = False
@@ -518,8 +517,8 @@ class Emotiv(object):
                     counter = [count]
                     t = time.clock()
                     t_curr = int(t)-self.last_tme
-                    print ('t_currrrr')
-                    print(t_curr)
+                    # print ('t_currrrr')
+                    # print(t_curr)
                     wr = csv.writer(fp, delimiter=',')
                     current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
                     line_wrt = counter + [t] + current_line
@@ -531,15 +530,19 @@ class Emotiv(object):
                         if self.csv_name == 'holder1.csv':
                             f = open('holder2.csv', 'w+')
                             self.csv_name = 'holder2.csv'
+                            self.close()
                         else:
                             if self.csv_name == 'holder2.csv':
                                 f = open('holder3.csv', 'w+')
                                 self.csv_name = 'holder3.csv'
+                                self.close()
                             else:
                                 f = open('holder1.csv', 'w+')
                                 self.csv_name = 'holder1.csv'
+                                self.close()
                         f.close()
                         self.last_tme = t_curr
+                        self.close()
                         #print self.last_tme
                 gevent.sleep(0)
 

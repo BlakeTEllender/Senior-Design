@@ -11,4 +11,3 @@ a.setup()
 
 epoc = np.genfromtxt('C:\Users\Blake\Documents\GitHub\Senior-Design\sec_epoc.csv', delimiter=',')
 
-print epoc

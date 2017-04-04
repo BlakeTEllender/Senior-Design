@@ -22,8 +22,8 @@ import numpy as np
 
 
 # Temporary file name variable for testing
-filenames1= ["meditation1"]
-filenames =  ["EEG Artifact Recordings/" + s + ".csv" for s in filenames1]
+
+filenames =  ["C:\Users\Blake\Documents\GitHub\Senior-Design\holder1.csv"]
 for filename in filenames:
 
 
@@ -31,6 +31,7 @@ for filename in filenames:
     # Importing as Numpy Array
 
     dblock = np.genfromtxt(filename, delimiter=',')
+    dblock = dblock[204:-1, :]
 
     # Region Selection
 
@@ -45,12 +46,13 @@ for filename in filenames:
 
     start = 1
 
+
     # Prompting the user for the end of the desired event.
 
     # Commented out for testing
     # stop = input("At what time in the recording would you like to stop packaging "
     #            "the data?")
-    stop = 350
+    stop = 3
 
     # Tagging training sets for NN
 
@@ -100,8 +102,8 @@ for filename in filenames:
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
 
-        epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                                           13, 14, 15, 16])]
+        epochs = dblock2[trange, np.array([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+                                           13, 14, 15])]
         # FFT of the epoch
         fft = np.transpose(abs(np.fft.fft(epochs, 72)))
 
@@ -138,5 +140,5 @@ for filename in filenames:
 
     print tblock2
 
-    output = filename[24:-4]+"_Testblock.csv"
-    np.savetxt(output, tblock2, delimiter=",")
+
+    np.savetxt("OnOff_TBlock.csv", tblock2, delimiter=',')
