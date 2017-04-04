@@ -58,7 +58,7 @@ epoc = np.genfromtxt(
 
 print epoc
 
-epoc = epoc[204:-1,:]
+
 
 # Preallocating an individual training set
 fftblock = np.zeros((1008))

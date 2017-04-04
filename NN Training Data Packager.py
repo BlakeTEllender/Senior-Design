@@ -10,6 +10,7 @@
 
 
 import numpy as np
+import PreFilter as PF
 
 # Prompting user for file location
 
@@ -22,8 +23,8 @@ import numpy as np
 
 
 # Temporary file name variable for testing
-filenames1= ["baseline_2"]
-filenames =  ["EEG Artifact Recordings/" + s + ".csv" for s in filenames1]
+filenames1= ["base1"]
+filenames =  ["Raw EEG Recordings/" + s + ".csv" for s in filenames1]
 for filename in filenames:
 
 
@@ -51,7 +52,8 @@ for filename in filenames:
     # Commented out for testing
     # stop = input("At what time in the recording would you like to stop packaging "
     #            "the data?")
-    stop = 300
+    stop = 50
+
 
 
 
@@ -90,14 +92,12 @@ for filename in filenames:
 
     # Selecting individual epochs
     # Preallocating an individual training set
-    tset = np.zeros([14 * 72])
-
+    tset = np.zeros([14 * 40])
+    o = 0
     # Preallocating the whole training data block
-    tblock = np.zeros((sample2, 1008))
-
+    tblock = np.zeros((int(stop-start-3), 560))
     # This loop creates training sets sliding along the time range given
-
-    for n in sample:
+    for n in range(start, (stop - 3)):
         # Determine what time range to pull the epoc from
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
@@ -107,26 +107,48 @@ for filename in filenames:
         #epochs = dblock2[trange,np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14,
         #                                 16, 17, 18])]
 
-        # FFT of the epoch
-        fft = np.transpose(abs(np.fft.fft(epochs, 72)))
+        # Prefiltering
+        my_data = epochs
+        f_fft = PF.signal.resample(my_data, 14)
+        filtered = PF.bandpass(f_fft[:14, 0:40].T, 1, 30, 150, corners=1,
+                            zerophase=True,
+                            axis=1)  # bandpass filter, 1 is low pass freq, 30 is high pass freq, 150 is the sample rate( assumed)
+        z = PF.baseline_als(filtered, 100, 0.1,
+                         niter=10)  # the estmatied baseline for each channel
+        bs = z - filtered  # the data with baseline correction.
+        k, W, S = PF.fastica(bs, n_comp=None, algorithm='parallel', w_init=None)
+        #print(S)  # The data with ICA applied
 
+
+
+
+
+        # print np.shape(S)
+
+        # FFT of the epoch
+        fft = np.transpose(abs(np.fft.fft(S, 40)))
+        # print np.shape(fft)
         # Setting up index of items that will be replaced as the fft of the training
         # set gets taken from 2D to 1D
-        range1 = np.arange(72)
+        range1 = np.arange(40)
         # Taking the fft from a 2D array to a 1D array
         for i in np.arange(0, 13):
             tset[range1] = fft[i, :]
-            range1 = range1 + 72
+            range1 = range1 + 40
         # Combining into training data
-        tblock[n,:] = tset
 
-    print epochs
+        tblock[int(n-start), :] = tset
+        print n
+        print "s of recording being processed"
+    # print epochs
 
     # Normalizing
-    tblock = tblock / np.amax(tblock)
+    tblock = np.divide(tblock, np.amax(tblock))
+    print tblock
+    print np.shape(tblock)
 
     # Adding identifiers
-    tag = np.ones((stop-start-3,1))
+    tag = np.ones(np.array([np.size(tblock,0),1]))
     med2 = np.multiply(tag, med)
     onoff2 = np.multiply(tag, onoff)
     tblock2= np.hstack((tblock,onoff2,med2))
@@ -140,8 +162,8 @@ for filename in filenames:
     # input "
     #                  "output.csv")
 
-    print np.shape(tblock2)
-    print tblock2
+    #print np.shape(tblock2)
+    #print tblock2
 
-    output = filename[24:-4]+"_Tblock.csv"
+    output = "NNTrainingBlocks/"+filename[19:-4]+"_Tblock.csv"
     np.savetxt(output, tblock2, delimiter=",")
