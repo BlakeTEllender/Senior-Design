@@ -23,8 +23,8 @@ import PreFilter as PF
 
 
 # Temporary file name variable for testing
-filenames1= ["base1"]
-filenames =  ["Raw EEG Recordings/" + s + ".csv" for s in filenames1]
+filenames1= ["eyeblink_2_30sec.csv","eyeblink_3_30sec.csv"]
+filenames =  ["Raw EEG Recordings/" + s for s in filenames1]
 for filename in filenames:
 
 
@@ -52,7 +52,8 @@ for filename in filenames:
     # Commented out for testing
     # stop = input("At what time in the recording would you like to stop packaging "
     #            "the data?")
-    stop = 50
+    stop = 40
+
 
 
 
@@ -102,10 +103,10 @@ for filename in filenames:
         trange = np.transpose(np.where(np.logical_and(time >= n, time <= n + 3)))
         # Cutting down to just EEG Samples
         epochs = dblock2[trange, np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                                          13,14, 15, 16])]
+                                          13, 14, 15, 16])]
 
-        #epochs = dblock2[trange,np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14,
-        #                                 16, 17, 18])]
+        # epochs = dblock2[trange,np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+        #                                  14, 16, 17, 18])]
 
         # Prefiltering
         my_data = epochs
@@ -116,7 +117,8 @@ for filename in filenames:
         z = PF.baseline_als(filtered, 100, 0.1,
                          niter=10)  # the estmatied baseline for each channel
         bs = z - filtered  # the data with baseline correction.
-        k, W, S = PF.fastica(bs, n_comp=None, algorithm='parallel', w_init=None)
+        #k, W, S = PF.fastica(bs, n_comp=None, algorithm='parallel',
+        # w_init=None)
         #print(S)  # The data with ICA applied
 
 
@@ -126,7 +128,7 @@ for filename in filenames:
         # print np.shape(S)
 
         # FFT of the epoch
-        fft = np.transpose(abs(np.fft.fft(S, 40)))
+        fft = np.transpose(abs(np.fft.fft(z, 40)))
         # print np.shape(fft)
         # Setting up index of items that will be replaced as the fft of the training
         # set gets taken from 2D to 1D

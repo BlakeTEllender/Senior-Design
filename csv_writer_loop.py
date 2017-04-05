@@ -22,7 +22,7 @@ from subprocess import check_output
 # You can set this lower to reduce idle CPU usage; it has no effect
 # as long as data is being read from the queue, so it is rather a
 # "resume" delay.
-DEVICE_POLL_INTERVAL = 0.1  # in seconds
+DEVICE_POLL_INTERVAL = 0.0001  # in seconds
 
 sensor_bits = {
     'F3': [10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7],
@@ -505,18 +505,19 @@ class Emotiv(object):
         Greenlet that outputs sensor, gyro and battery values to the console and stores values in csv file.
         """
         count = 0  # initializing values
-        t_curr = 0
-        cycles = 1
+        T= time.time()
         epoc_time = 3
 
         if self.display_output:
             while self.running:
                 os.system('cls')
+                f = open(self.csv_name,'w+')
+                f.close()
                 with open(self.csv_name, 'ab') as fp:
                     count += 1
                     counter = [count]
-                    t = time.clock()
-                    t_curr = int(t)-self.last_tme
+                    t = time.clock() - self.last_tme
+                    t_curr = int(t)
                     # print ('t_currrrr')
                     # print(t_curr)
                     wr = csv.writer(fp, delimiter=',')
@@ -525,25 +526,10 @@ class Emotiv(object):
                     print (line_wrt)
                     wr.writerow(line_wrt)
                     fp.close()
-                    if t_curr >= epoc_time:
-                        print 'bigger than 3'
-                        if self.csv_name == 'holder1.csv':
-                            f = open('holder2.csv', 'w+')
-                            self.csv_name = 'holder2.csv'
-                            self.close()
-                        else:
-                            if self.csv_name == 'holder2.csv':
-                                f = open('holder3.csv', 'w+')
-                                self.csv_name = 'holder3.csv'
-                                self.close()
-                            else:
-                                f = open('holder1.csv', 'w+')
-                                self.csv_name = 'holder1.csv'
-                                self.close()
-                        f.close()
+                    if t_curr >= 3:
                         self.last_tme = t_curr
                         self.close()
-                        #print self.last_tme
+                        print self.last_tme
                 gevent.sleep(0)
 
 

@@ -387,10 +387,7 @@ class Emotiv(object):
             'AF3': {'value': 0, 'quality': 0},
             'O2': {'value': 0, 'quality': 0},
             'O1': {'value': 0, 'quality': 0},
-            'FC5': {'value': 0, 'quality': 0},
-            'X': {'value': 0, 'quality': 0},
-            'Y': {'value': 0, 'quality': 0},
-            'Unknown': {'value': 0, 'quality': 0}
+            'FC5': {'value': 0, 'quality': 0}
         }
 
         self.serial_number = serial_number  # You will need to set this manually for OS X.
@@ -665,7 +662,7 @@ class Emotiv(object):
         with open(stor_csv_name,'wb') as fp:
             wr = csv.writer(fp, delimiter = ',')
             lead_names = (
-            'Counter:','Time:','Y:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:', 'P8:', 'FC5:', 'AF4:', 'Unknown:', 'T8:', 'X:',
+            'Counter:','Time:', 'F3:', 'F4:', 'P7:', 'FC6:', 'F7:', 'F8:', 'T7:', 'P8:', 'FC5:', 'AF4:', 'T8:',
             'O2:', 'O1:', 'AF3:')
             wr.writerow(lead_names)
         if self.display_output:

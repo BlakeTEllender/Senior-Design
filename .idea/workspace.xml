@@ -2,43 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a2e5956b-99ca-4f5b-a219-61d576e6d8f1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PreFilter.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/EOG Neural Network.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Live Feed Test.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/EMG_1_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/EMG_2_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/EMG_3_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/baseline_2_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/baseline_3_Tblock.csv" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Training_Data_Recorder.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/blink _1_60sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/blink_2_60sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/blink_3_60sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/eyeblink_1_30sec.cs_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/eyeblink_1_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/eyeblink_2_30sec.cs_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/eyeblink_2_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/eyeblink_3_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/meditation1_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/meditation2_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/rock_1_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/rock_2_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/NNTrainingBlocks/rock_3_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/1Layerweight.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse0 OnOff.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse0.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse0OnOff.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse1 OnOff.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse1.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Synapse1OnOff.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/rock_4_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/rock_5_30sec_Tblock.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/save_to_csv_3_sec_epoc.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/0Layerweight.csv" afterPath="$PROJECT_DIR$/LayerWeights/0Layerweight.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Blake.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Blake.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/EMG_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/EMG_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/EMG_3_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/Layerweight0Med.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/Layerweight1Med.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/OnOff_test1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/base1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/baseline2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/baseline_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/baseline_2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/baseline_3.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/blink _1_60sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/blink_2_60sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/blink_3_60sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/chewy_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/chewy_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/chewy_3_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eog_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eog_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eog_3_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eyeblink_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eyeblink_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/eyeblink_3_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/meditation1.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/meditation2.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/rock_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/rock_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/rock_3_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/rock_4_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/rock_5_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/tap_1_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/tap_2_30sec.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Raw EEG Recordings/tap_3_30sec.csv" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Senior-Design.iml" afterPath="$PROJECT_DIR$/.idea/Senior-Design.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LampMaster.py" afterPath="$PROJECT_DIR$/LampMaster.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LayerWeights/1Layerweight.csv" afterPath="$PROJECT_DIR$/LayerWeights/1Layerweight.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NN Training Data Packager.py" afterPath="$PROJECT_DIR$/NN Training Data Packager.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/csv_writer_loop.py" afterPath="$PROJECT_DIR$/csv_writer_loop.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/holder1.csv" afterPath="$PROJECT_DIR$/holder1.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/save_to_csv3.py" afterPath="$PROJECT_DIR$/save_to_csv3.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,11 +59,63 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PreFilter.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PreFilter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreFilter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
               <caret line="212" column="44" lean-forward="false" selection-start-line="212" selection-start-column="44" selection-end-line="212" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NN Training Data Packager.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/NN Training Data Packager.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="118" column="63" lean-forward="false" selection-start-line="118" selection-start-column="63" selection-end-line="118" selection-end-column="63" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LampMaster.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LampMaster.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
+              <folding>
+                <element signature="e#74#108#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="save_to_csv3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/save_to_csv3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="141">
+              <caret line="371" column="34" lean-forward="false" selection-start-line="371" selection-start-column="34" selection-end-line="371" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Training_Data_Recorder.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Training_Data_Recorder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="543">
+              <caret line="472" column="65" lean-forward="false" selection-start-line="472" selection-start-column="65" selection-end-line="472" selection-end-column="65" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="csv_writer_loop.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/csv_writer_loop.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="518" column="35" lean-forward="false" selection-start-line="518" selection-start-column="35" selection-end-line="518" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -111,14 +169,17 @@
         <option value="$PROJECT_DIR$/Live Feed Test.py" />
         <option value="$PROJECT_DIR$/save_to_csv_3_sec_epoc.py" />
         <option value="$PROJECT_DIR$/Epoc_Feeder.py" />
-        <option value="$PROJECT_DIR$/csv_writer_loop.py" />
-        <option value="$PROJECT_DIR$/holder1.csv" />
         <option value="$PROJECT_DIR$/NN Testing Data Packager.py" />
         <option value="$PROJECT_DIR$/OnOffN.py" />
         <option value="$PROJECT_DIR$/EOG Neural Network.py" />
-        <option value="$PROJECT_DIR$/LampMaster.py" />
         <option value="$PROJECT_DIR$/PreFilter.py" />
         <option value="$PROJECT_DIR$/NN Training Data Packager.py" />
+        <option value="$PROJECT_DIR$/save_to_csv3.py" />
+        <option value="$PROJECT_DIR$/Blake_blink_30sec_3.csv" />
+        <option value="$PROJECT_DIR$/Training_Data_Recorder.py" />
+        <option value="$PROJECT_DIR$/holder1.csv" />
+        <option value="$PROJECT_DIR$/LampMaster.py" />
+        <option value="$PROJECT_DIR$/csv_writer_loop.py" />
       </list>
     </option>
   </component>
@@ -162,6 +223,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -177,7 +239,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -185,20 +246,20 @@
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_f02737a78695063deace08e96d5042710d3e32db/cmd/git.exe" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design" />
-      <recent name="C:\Users\Blake\Desktop" />
-      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\EEG Artifact Recordings" />
-      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\CyKit-master\Python\CyKit" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\LayerWeights" />
       <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\NNTrainingBlocks" />
       <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design" />
       <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\EEG Artifact Recordings" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design" />
+      <recent name="C:\Users\Blake\Desktop" />
+      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\EEG Artifact Recordings" />
+      <recent name="C:\Users\Blake\Documents\GitHub\Senior-Design\CyKit-master\Python\CyKit" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.NN Training Data Packager">
+  <component name="RunManager" selected="Python.LampMaster">
     <configuration default="false" name="LampMaster" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -233,23 +294,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="NN Testing Data Packager" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Senior-Design" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NN Testing Data Packager.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="PreFilter" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -280,6 +324,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Senior-Design" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NN Training Data Packager.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="save_to_csv3" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Senior-Design" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/save_to_csv3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -424,17 +485,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.LampMaster" />
       <item index="1" class="java.lang.String" itemvalue="Python.OnOffN" />
-      <item index="2" class="java.lang.String" itemvalue="Python.NN Testing Data Packager" />
-      <item index="3" class="java.lang.String" itemvalue="Python.PreFilter" />
-      <item index="4" class="java.lang.String" itemvalue="Python.NN Training Data Packager" />
+      <item index="2" class="java.lang.String" itemvalue="Python.PreFilter" />
+      <item index="3" class="java.lang.String" itemvalue="Python.NN Training Data Packager" />
+      <item index="4" class="java.lang.String" itemvalue="Python.save_to_csv3" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.NN Training Data Packager" />
-        <item index="1" class="java.lang.String" itemvalue="Python.PreFilter" />
-        <item index="2" class="java.lang.String" itemvalue="Python.LampMaster" />
-        <item index="3" class="java.lang.String" itemvalue="Python.OnOffN" />
-        <item index="4" class="java.lang.String" itemvalue="Python.NN Testing Data Packager" />
+        <item index="0" class="java.lang.String" itemvalue="Python.LampMaster" />
+        <item index="1" class="java.lang.String" itemvalue="Python.save_to_csv3" />
+        <item index="2" class="java.lang.String" itemvalue="Python.NN Training Data Packager" />
+        <item index="3" class="java.lang.String" itemvalue="Python.PreFilter" />
+        <item index="4" class="java.lang.String" itemvalue="Python.OnOffN" />
       </list>
     </recent_temporary>
   </component>
@@ -603,26 +664,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17597471" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36926362" sideWeight="0.18598525" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3276414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32870865" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32657418" sideWeight="0.272392" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17017913" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3275862" sideWeight="0.7307692" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32657418" sideWeight="0.727608" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978564" sideWeight="0.49788806" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3724653" sideWeight="0.81401473" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2796158" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978564" sideWeight="0.49788806" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -664,31 +725,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Synapse0.csv" />
-    <entry file="file://$PROJECT_DIR$/EEG Artifact Recordings/baseline_2.csv" />
-    <entry file="file://$PROJECT_DIR$/rock_2_30sec_Tblock.csv" />
-    <entry file="file://$PROJECT_DIR$/testfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Layerweight.csv" />
-    <entry file="file://$PROJECT_DIR$/0Layerweight.csv" />
-    <entry file="file://$PROJECT_DIR$/1Layerweight.csv" />
-    <entry file="file://C:/Python27/Lib/site-packages/numpy/lib/npyio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="1486" column="0" lean-forward="false" selection-start-line="1486" selection-start-column="0" selection-end-line="1486" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Layerweight0Med.csv" />
-    <entry file="file://$PROJECT_DIR$/Layerweight0.csv" />
-    <entry file="file://$PROJECT_DIR$/Med Neural Network.py" />
-    <entry file="file://$PROJECT_DIR$/OnOff Neural Network.py" />
-    <entry file="file://$PROJECT_DIR$/Layerweight1Med.csv" />
     <entry file="file://$PROJECT_DIR$/epoc_writer_working_windows.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -738,13 +774,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/save_to_csv_3_sec_epoc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1553">
-          <caret line="698" column="0" lean-forward="false" selection-start-line="698" selection-start-column="0" selection-end-line="698" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/save_to_csv_3_sec_epoc.py" />
     <entry file="file://$USER_HOME$/Desktop/csv_feed_2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="653">
@@ -783,20 +813,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/csv_writer_loop.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15630">
-          <caret line="524" column="20" lean-forward="false" selection-start-line="524" selection-start-column="20" selection-end-line="524" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/holder1.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81150">
-          <caret line="2705" column="0" lean-forward="false" selection-start-line="2705" selection-start-column="0" selection-end-line="2705" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BPNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4350">
@@ -826,20 +842,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EOG Neural Network.py" />
-    <entry file="file://$USER_HOME$/Desktop/save_to_csv3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="55" column="13" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LampMaster.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="849">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/save_to_csv3.py" />
     <entry file="file://$PROJECT_DIR$/csv_feed.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -851,49 +854,63 @@
     <entry file="file://$PROJECT_DIR$/ine_2_Tblock.csv" />
     <entry file="file://$PROJECT_DIR$/baseline_2_Tblock.csv" />
     <entry file="file://$PROJECT_DIR$/blink _1_60sec_Tblock.csv" />
-    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/blink _1_60sec_Tblock.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/base1.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline2.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline_3.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/csv_writer1_19_17.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-14823">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/base1.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/blink_2_60sec.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/blink_3_60sec.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/blink _1_60sec.csv" />
+    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/blink_2_60sec_Tblock.csv" />
+    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/blink _1_60sec_Tblock.csv" />
+    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/baseline2_2Tblock.csv" />
+    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/baseline2_3Tblock.csv" />
+    <entry file="file://$PROJECT_DIR$/NNTrainingBlocks/baseline_2_5Tblock.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline_2.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline_3.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline2.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/baseline_1_30sec.csv" />
+    <entry file="file://$PROJECT_DIR$/PreFilter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="212" column="44" lean-forward="false" selection-start-line="212" selection-start-column="44" selection-end-line="212" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/meditation1.csv" />
+    <entry file="file://$PROJECT_DIR$/Raw EEG Recordings/rock_2_30sec.csv" />
+    <entry file="file://$PROJECT_DIR$/Blake_blink_30sec_3.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Training_Data_Recorder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="472" column="65" lean-forward="false" selection-start-line="472" selection-start-column="65" selection-end-line="472" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/holder1.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4503">
+          <caret line="593" column="0" lean-forward="false" selection-start-line="593" selection-start-column="0" selection-end-line="593" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/save_to_csv3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19715">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="141">
+          <caret line="371" column="34" lean-forward="false" selection-start-line="371" selection-start-column="34" selection-end-line="371" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -901,17 +918,25 @@
     <entry file="file://$PROJECT_DIR$/NN Training Data Packager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="25" column="21" lean-forward="false" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+          <caret line="118" column="63" lean-forward="false" selection-start-line="118" selection-start-column="63" selection-end-line="118" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LampMaster.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="58" column="12" lean-forward="false" selection-start-line="58" selection-start-column="12" selection-end-line="58" selection-end-column="12" />
           <folding>
-            <element signature="e#222#240#0" expanded="true" />
+            <element signature="e#74#108#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PreFilter.py">
+    <entry file="file://$PROJECT_DIR$/csv_writer_loop.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="212" column="44" lean-forward="false" selection-start-line="212" selection-start-column="44" selection-end-line="212" selection-end-column="44" />
+        <state relative-caret-position="259">
+          <caret line="518" column="35" lean-forward="false" selection-start-line="518" selection-start-column="35" selection-end-line="518" selection-end-column="35" />
           <folding />
         </state>
       </provider>
