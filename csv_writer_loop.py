@@ -7,10 +7,13 @@ system_platform = platform.system()
 import socket  # Needed to prevent gevent crashing on Windows. (surfly / gevent issue #459)
 import pywinusb.hid as hid
 import gevent
+import Crypto
 from Crypto.Cipher import AES
 from Crypto import Random
 from gevent.queue import Queue
 from subprocess import check_output
+import timeit
+import threading
 
 # How long to gevent-sleep if there is no data on the EEG.
 # To be precise, this is not the frequency to poll on the input device
@@ -412,7 +415,7 @@ class Emotiv(object):
             console_updater = gevent.spawn(self.update_console,self.csv_name,self.last_tme)
             while self.running:
                 try:
-                    gevent.sleep(0.01)
+                    gevent.sleep(0)
 
                 except KeyboardInterrupt:
                     self.running = False
@@ -420,8 +423,8 @@ class Emotiv(object):
             for device in devices:
                 device.close()
 
-            gevent.kill(crypto, KeyboardInterrupt)
-            gevent.kill(console_updater, KeyboardInterrupt)
+            gevent.kill(crypto)
+            gevent.kill(console_updater)
 
     def handler(self, data):
         """
@@ -504,32 +507,37 @@ class Emotiv(object):
         """
         Greenlet that outputs sensor, gyro and battery values to the console and stores values in csv file.
         """
-        count = 0  # initializing values
-        T= time.time()
+
         epoc_time = 3
+        count = 0  # initializing values
+
 
         if self.display_output:
+            starttime= time.time()
             while self.running:
                 os.system('cls')
-                f = open(self.csv_name,'w+')
-                f.close()
-                with open(self.csv_name, 'ab') as fp:
-                    count += 1
-                    counter = [count]
-                    t = time.clock() - self.last_tme
-                    t_curr = int(t)
-                    # print ('t_currrrr')
-                    # print(t_curr)
-                    wr = csv.writer(fp, delimiter=',')
-                    current_line = [int(self.sensors[k[1]]['value']) for k in enumerate(self.sensors)]
-                    line_wrt = counter + [t] + current_line
-                    print (line_wrt)
-                    wr.writerow(line_wrt)
-                    fp.close()
-                    if t_curr >= 3:
-                        self.last_tme = t_curr
-                        self.close()
-                        print self.last_tme
+                timer = time.time()
+                if timer <= (starttime+epoc_time):
+                    with open(self.csv_name, 'ab') as fp:
+                        count += 1
+                        counter = [count]
+                        t = [timer - starttime]
+                        wr = csv.writer(fp, delimiter=',')
+                        current_line = [int(self.sensors[k[1]]['value']) for k
+                                        in enumerate(self.sensors)]
+                        line_wrt = counter + t + current_line
+                        # print (line_wrt)
+                        wr.writerow(line_wrt)
+                        t2 = int(timer)
+                        # self.last_tme = int(t2)
+                        # print self.last_tme
+
+                else:
+
+                    self.close()
+                    count = 0  # initializing values
+
+
                 gevent.sleep(0)
 
 

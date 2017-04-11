@@ -73,7 +73,7 @@ for filename in filenames:
     # just the eeg data.
 
     # Removing labels from the first row of the CSV
-    dblock2 = dblock[1:, :]
+    dblock2 = dblock
 
     # Array of samples may need changed
     sample = dblock2[:, 1]

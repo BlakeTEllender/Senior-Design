@@ -658,7 +658,7 @@ class Emotiv(object):
         Greenlet that outputs sensor, gyro and battery values once per second to the console.
         """
         count = 0
-        stor_csv_name = 'Blake_blink_30sec_3.csv'
+        stor_csv_name = raw_input("File Name?")
         with open(stor_csv_name,'wb') as fp:
             wr = csv.writer(fp, delimiter = ',')
             lead_names = (

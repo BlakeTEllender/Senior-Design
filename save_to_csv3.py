@@ -680,6 +680,7 @@ class Emotiv(object):
                     line_wrt = counter + t + current_line
                     print (line_wrt)
                     wr.writerow(line_wrt)
+
                 gevent.sleep(0)
 
 

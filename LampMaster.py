@@ -5,6 +5,7 @@
 
 from csv_writer_loop import Emotiv
 import numpy as np
+import winsound
 
 
 
@@ -18,7 +19,7 @@ def sgm(x, Derivative=False):
 
 
 # Caling Emotiv
-E = Emotiv()
+
 
 
 # Loading Neural Network Layer weights
@@ -51,17 +52,19 @@ lastiteration = 0
 # 30 minute session loop
 
 
-
 for x in xrange(1,600):
-    # Getting 3 Sec Epoc
-    a = Emotiv()
-    a.setup()
-    a.close()
+    clear = []
+    np.savetxt('holder1.csv', clear, delimiter=",")
+    # Getting 3 Sec Epoch
+    A = Emotiv()
+    A.setup()
+    A.close()
+
+
+
     epoc = np.genfromtxt(
         'C:\Users\Blake\Documents\GitHub\Senior-Design\holder1.csv',
         delimiter=',')
-
-    print epoc
 
 
 
@@ -109,10 +112,9 @@ for x in xrange(1,600):
 
     #Pushing through OnOff NN
     l1O = sgm(np.dot(l0, weights0OnOff.T))
-    l2O = sgm(np.dot(np.hstack([l1m, np.ones([2, 1])]), weights1OnOff))
-    MLevel = (l2m[0] + lastiteration)
-    lastiteration = l2m[0]
-    Output = (MLevel), (l2O[0])
+    l2O = sgm(np.dot(np.hstack([l1O, np.ones([2, 1])]), weights1OnOff))
+    MedLevel = l2m[0] + lastiteration
+    Output = (MedLevel), (l2O[0])
 
     print "Meditation Detected?"
     print Output[0]
@@ -121,7 +123,5 @@ for x in xrange(1,600):
     print "Iteration"
     print x
 
-
-
-
-
+    if Output[1] >= 0.7:
+        winsound.MessageBeep(-1)
