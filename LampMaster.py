@@ -18,9 +18,6 @@ def sgm(x, Derivative=False):
         return out * (1.0 - out)
 
 
-# Caling Emotiv
-
-
 
 # Loading Neural Network Layer weights
 
@@ -56,6 +53,7 @@ for x in xrange(1,600):
     clear = []
     np.savetxt('holder1.csv', clear, delimiter=",")
     # Getting 3 Sec Epoch
+    # Calling Emotiv
     A = Emotiv()
     A.setup()
     A.close()
